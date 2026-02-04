@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>Tap-Together | ISA</title>
+  <title>Tap Together ❤️</title>
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;600;800&display=swap');
 
     :root{
       --ink:#1b1b1f;
@@ -15,14 +15,9 @@
       --paper2:#f6efe2;
       --gold:#c5a059;
       --rose:#d85a7a;
-      --rose2:#ff8fb0;
-      --good:#2f9d62;
-      --warn:#b8872f;
-      --bad:#c03b3b;
-
-      --panel: rgba(255,255,255,.62);
-      --border: rgba(27,27,31,.12);
-      --shadow: 0 18px 60px rgba(0,0,0,.18);
+      --panel:rgba(255,255,255,.70);
+      --border:rgba(27,27,31,.12);
+      --shadow:0 18px 60px rgba(0,0,0,.16);
     }
 
     *{box-sizing:border-box}
@@ -38,7 +33,7 @@
       overflow:hidden;
     }
 
-    .wrap{ height:100%; display:grid; place-items:center; padding:16px; }
+    .wrap{height:100%; display:grid; place-items:center; padding:16px;}
     .panel{
       width:min(820px, 96vw);
       background:var(--panel);
@@ -52,7 +47,6 @@
       position:relative;
       overflow:hidden;
     }
-
     .panel::before{
       content:"";
       position:absolute;
@@ -63,281 +57,133 @@
       pointer-events:none;
     }
 
-    .top{
-      position:relative;
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-      justify-content:space-between;
-      flex-wrap:wrap;
-    }
-
+    .top{position:relative; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;}
     h1{
       margin:0;
       font-family:"Playfair Display", serif;
-      font-size:20px;
+      font-size:22px;
       font-weight:700;
       letter-spacing:.2px;
     }
-    .sub{
-      margin:6px 0 0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.45;
-      max-width: 62ch;
-    }
+    .sub{margin:6px 0 0; color:var(--muted); font-size:13px; line-height:1.45; max-width:70ch;}
 
-    .controls{
-      position:relative;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
+    .controls{position:relative; display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;}
     .btn{
       appearance:none;
       border:1px solid rgba(27,27,31,.16);
-      background: rgba(255,255,255,.62);
+      background: rgba(255,255,255,.72);
       color:var(--ink);
       padding:10px 12px;
       border-radius:14px;
       font-weight:800;
       font-size:13px;
       cursor:pointer;
-      transition: transform .08s ease, background .15s ease, border-color .15s ease;
       user-select:none;
     }
-    .btn:hover{ background: rgba(255,255,255,.78); border-color: rgba(27,27,31,.22); }
-    .btn:active{ transform: translateY(1px) scale(.99); }
     .btn.primary{
       border-color: rgba(197,160,89,.55);
-      background: linear-gradient(180deg, rgba(197,160,89,.28), rgba(255,255,255,.72));
+      background: linear-gradient(180deg, rgba(197,160,89,.26), rgba(255,255,255,.78));
     }
 
     .stage{
       position:relative;
       width:100%;
-      aspect-ratio: 16/9;
-      min-height: 400px;
+      min-height: 440px;
       border-radius:24px;
       border:1px solid var(--border);
       background:
         radial-gradient(950px 520px at 50% 30%, rgba(216,90,122,.10), transparent 65%),
         radial-gradient(850px 520px at 40% 85%, rgba(197,160,89,.12), transparent 60%),
         rgba(255,255,255,.48);
-      overflow:hidden;
       display:grid;
       place-items:center;
+      overflow:hidden;
       padding:18px;
       touch-action: manipulation;
     }
 
-    .prompt{
+    .pill{
       position:absolute;
       top:14px; left:14px; right:14px;
       display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
-      pointer-events:none;
-    }
-
-    .pill{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid rgba(27,27,31,.12);
-      background: rgba(255,255,255,.62);
-      color: var(--muted);
-      font-size:12px;
-      pointer-events:none;
-      max-width: 100%;
-    }
-    .pill b{ color:var(--ink); }
-    .stats{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
-    .stat{
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid rgba(27,27,31,.12);
-      background: rgba(255,255,255,.62);
-      font-size:12px;
-      color: var(--muted);
-      white-space:nowrap;
-      pointer-events:none;
-    }
-    .stat b{ color: var(--ink); }
-
-    .heartArea{
-      position:relative;
-      display:grid;
-      place-items:center;
-      width:min(340px, 60vw);
-      aspect-ratio:1/1;
-      user-select:none;
-      -webkit-user-select:none;
-    }
-
-    .heart{
-      font-size: clamp(96px, 14vw, 185px);
-      transform: translateZ(0) scale(1);
-      filter: drop-shadow(0 18px 35px rgba(216,90,122,.16));
-      transition: transform 120ms ease, filter 120ms ease;
-      will-change: transform, filter;
-    }
-
-    .ring{
-      position:absolute;
-      width: 84%;
-      height: 84%;
-      border-radius: 999px;
-      border: 2px solid rgba(216,90,122,.0);
-      transform: scale(.65);
-      opacity: 0;
-      pointer-events:none;
-    }
-
-    .glowOn .heart{
-      filter:
-        drop-shadow(0 0 18px rgba(216,90,122,.55))
-        drop-shadow(0 0 44px rgba(197,160,89,.28));
-      animation: pulse 740ms ease-in-out both;
-    }
-    .glowOn .ring{ animation: ring 740ms ease-out both; }
-
-    @keyframes pulse{
-      0%{ transform: scale(var(--baseScale, 1)); }
-      45%{ transform: scale(calc(var(--baseScale, 1) * 1.10)); }
-      100%{ transform: scale(calc(var(--baseScale, 1) * 1.02)); }
-    }
-    @keyframes ring{
-      0%{ opacity:0; transform: scale(.65); border-color: rgba(216,90,122,.0); }
-      30%{ opacity:1; border-color: rgba(216,90,122,.42); }
-      100%{ opacity:0; transform: scale(1.22); border-color: rgba(216,90,122,.0); }
-    }
-
-    /* Explosion confetti-ish */
-    .burst{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      display:grid;
-      place-items:center;
-      opacity:0;
-      transform: scale(.98);
-    }
-    .burst.show{
-      opacity:1;
-      animation: burstFade 900ms ease-out both;
-    }
-    @keyframes burstFade{
-      0%{ opacity:0; transform: scale(.94); }
-      20%{ opacity:1; transform: scale(1.02); }
-      100%{ opacity:0; transform: scale(1.06); }
-    }
-
-    .spark{
-      position:absolute;
-      width:10px; height:10px;
-      border-radius:999px;
-      opacity:0;
-      animation: spark 900ms ease-out both;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,143,176,.85), rgba(197,160,89,.65));
-    }
-    @keyframes spark{
-      0%{ transform: translate(0,0) scale(.6); opacity:0; }
-      18%{ opacity:1; }
-      100%{ transform: translate(var(--dx), var(--dy)) scale(1.2); opacity:0; }
-    }
-
-    .tapHint{
-      position:absolute;
-      bottom:14px;
-      left:14px;
-      right:14px;
-      display:flex;
-      align-items:center;
       justify-content:space-between;
       gap:10px;
-      color: var(--muted);
-      font-size:13px;
-    }
-
-    .meterWrap{ flex:1; min-width:220px; }
-    .meterTop{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:8px;
+      flex-wrap:wrap;
+      pointer-events:none;
       font-size:12px;
       color:var(--muted);
     }
-
-    .meter{
-      height:10px;
-      border-radius:999px;
-      background: rgba(27,27,31,.08);
-      border:1px solid rgba(27,27,31,.10);
-      overflow:hidden;
-    }
-    .meter > i{
-      display:block;
-      height:100%;
-      width:0%;
-      background: linear-gradient(90deg, rgba(192,59,59,.86), rgba(184,135,47,.90), rgba(47,157,98,.90));
-      transition: width 180ms ease;
-    }
-
-    .bigTap{
-      pointer-events:auto;
-      border:none;
+    .pill > div{
       background: rgba(255,255,255,.72);
-      border:1px solid rgba(27,27,31,.14);
-      color:var(--ink);
-      padding:14px 16px;
-      border-radius:18px;
-      font-weight:900;
-      cursor:pointer;
-      display:inline-flex;
-      gap:10px;
-      align-items:center;
-      transition: transform .08s ease, background .15s ease, border-color .15s ease;
-      user-select:none;
-      min-width: 150px;
-      justify-content:center;
+      border:1px solid rgba(27,27,31,.12);
+      padding:8px 10px;
+      border-radius:999px;
     }
-    .bigTap:hover{ background: rgba(255,255,255,.86); border-color: rgba(27,27,31,.20); }
-    .bigTap:active{ transform: translateY(1px) scale(.99); }
+    .pill b{color:var(--ink)}
 
-    .feedback{
-      position:absolute;
-      inset:auto 0 58px 0;
+    .heartWrap{
+      position:relative;
       display:grid;
       place-items:center;
-      pointer-events:none;
-      font-weight:950;
-      letter-spacing:.3px;
+      width:min(360px, 65vw);
+      aspect-ratio:1/1;
+      user-select:none;
+    }
+
+    .heart{
+      font-size: clamp(110px, 15vw, 200px);
+      transform: scale(1);
+      transition: transform 180ms ease, filter 180ms ease;
+      filter: drop-shadow(0 18px 35px rgba(216,90,122,.16));
+    }
+
+    .glow .heart{
+      filter:
+        drop-shadow(0 0 20px rgba(216,90,122,.55))
+        drop-shadow(0 0 50px rgba(197,160,89,.30));
+      animation: pulse 600ms ease-in-out both;
+    }
+    @keyframes pulse{
+      0%{ transform: scale(var(--base,1)); }
+      50%{ transform: scale(calc(var(--base,1) * 1.08)); }
+      100%{ transform: scale(calc(var(--base,1) * 1.02)); }
+    }
+
+    .msg{
+      position:absolute;
+      inset:auto 14px 18px 14px;
+      text-align:center;
+      font-weight:900;
+      letter-spacing:.2px;
       opacity:0;
       transform: translateY(8px);
       transition: opacity .18s ease, transform .18s ease;
-      text-align:center;
-      padding:0 16px;
+      pointer-events:none;
     }
-    .feedback.show{ opacity:1; transform: translateY(0); }
-    .feedback small{
-      display:block;
-      font-weight:750;
-      color: var(--muted);
-      margin-top:6px;
-      letter-spacing:0;
+    .msg.show{opacity:1; transform: translateY(0);}
+    .msg small{display:block; margin-top:6px; font-weight:650; color:var(--muted);}
+
+    .tapBtn{
+      position:absolute;
+      bottom:14px;
+      right:14px;
+      left:14px;
+      display:flex;
+      justify-content:center;
+    }
+    .tapBtn button{
+      border:1px solid rgba(27,27,31,.14);
+      background: rgba(255,255,255,.82);
+      border-radius:18px;
+      padding:14px 18px;
+      font-weight:950;
+      font-size:16px;
+      cursor:pointer;
+      min-width: min(420px, 90%);
     }
 
-    /* Modal */
     .overlay{
-      position:fixed;
-      inset:0;
+      position:fixed; inset:0;
       background: rgba(20,18,16,.25);
       backdrop-filter: blur(10px);
       display:none;
@@ -345,49 +191,28 @@
       padding:18px;
       z-index:50;
     }
-    .overlay.show{ display:grid; }
+    .overlay.show{display:grid}
     .modal{
       width:min(520px, 96vw);
-      background: rgba(255,255,255,.86);
+      background: rgba(255,255,255,.90);
       border:1px solid rgba(27,27,31,.14);
       border-radius:22px;
-      box-shadow: 0 18px 60px rgba(0,0,0,.22);
+      box-shadow:0 18px 60px rgba(0,0,0,.20);
       padding:16px;
     }
-    .modal h2{
-      margin:0;
-      font-family:"Playfair Display", serif;
-      font-size:18px;
-    }
-    .modal p{ margin:8px 0 0; color:var(--muted); font-size:13px; line-height:1.45; }
-    .row{
-      display:flex;
-      gap:10px;
-      margin-top:12px;
-      flex-wrap:wrap;
-    }
+    .modal h2{margin:0; font-family:"Playfair Display", serif; font-size:18px;}
+    .modal p{margin:8px 0 0; color:var(--muted); font-size:13px; line-height:1.45;}
+    .row{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;}
     .input{
-      flex:1;
-      min-width: 220px;
+      flex:1; min-width:220px;
       padding:12px 12px;
       border-radius:14px;
       border:1px solid rgba(27,27,31,.16);
       outline:none;
-      font-weight:800;
+      font-weight:900;
       font-size:14px;
-      background: rgba(255,255,255,.9);
+      background: rgba(255,255,255,.95);
       color:var(--ink);
-    }
-    .hint{
-      margin-top:10px;
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    @media (max-width:520px){
-      .stage{ min-height: 460px; aspect-ratio: 10/16; }
-      .tapHint{ flex-direction:column; align-items:stretch; }
-      .bigTap{ width:100%; }
     }
   </style>
 </head>
@@ -398,9 +223,9 @@
       <div class="top">
         <div>
           <h1>Tap-Together Challenge</h1>
-          <div class="sub" id="subtitle">
-            When the heart glows, everyone taps together. Each good tap grows the heart — and when it’s full…
-            it bursts into something kind.
+          <div class="sub">
+            When the heart glows, everyone taps. Each successful glow-tap grows the heart.
+            When it’s full… <b>BOOM</b> ✨ — a warm word for the room.
           </div>
         </div>
         <div class="controls">
@@ -411,108 +236,54 @@
       </div>
 
       <div class="stage" id="stage">
-        <div class="prompt">
-          <div class="pill" id="modePill">Mode: <b id="modeText">Practice</b> • Room: <b id="roomText">—</b></div>
-          <div class="stats">
-            <div class="stat">Build: <b id="build">0</b>/7</div>
-            <div class="stat">Best: <b id="best">0</b>%</div>
-            <div class="stat">Last: <b id="last">—</b></div>
-          </div>
+        <div class="pill">
+          <div>Mode: <b id="modeText">Practice</b></div>
+          <div>Room: <b id="roomText">—</b></div>
+          <div>Build: <b id="buildText">0</b>/7</div>
         </div>
 
-        <div class="heartArea" id="heartArea">
-          <div class="ring"></div>
+        <div class="heartWrap" id="heartWrap">
           <div class="heart" id="heart">❤️</div>
-
-          <div class="burst" id="burst"></div>
         </div>
 
-        <div class="feedback" id="feedback">
-          <div id="feedbackTitle">READY</div>
-          <small id="feedbackSub">Wait for the glow…</small>
+        <div class="msg" id="msg">
+          <div id="msgTitle">READY</div>
+          <small id="msgSub">Wait for the glow… then tap.</small>
         </div>
 
-        <div class="tapHint">
-          <div class="meterWrap">
-            <div class="meterTop">
-              <span>Harmony meter</span>
-              <span id="nextIn">Next glow in: —</span>
-            </div>
-            <div class="meter"><i id="meterFill"></i></div>
-          </div>
-          <button class="bigTap" id="tapBtn">Tap ❤️</button>
+        <div class="tapBtn">
+          <button id="tapBtn">Tap ❤️</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Room modal -->
-  <div class="overlay" id="overlay" aria-hidden="true">
+  <div class="overlay" id="overlay">
     <div class="modal">
-      <h2>Enter Room Code</h2>
-      <p>
-        Everyone opens the same link, then types the same room code — like <b>isa</b>.
-        You’ll all share the same glow rhythm.
-      </p>
+      <h2>Room Mode</h2>
+      <p>Type a room code (example: <b>isa</b>). Everyone who types the same code plays “together” on the same glow rhythm.</p>
       <div class="row">
-        <input class="input" id="roomInput" placeholder="e.g., isa" maxlength="24" autocapitalize="none" autocomplete="off" />
+        <input class="input" id="roomInput" placeholder="isa" maxlength="24" autocapitalize="none" autocomplete="off"/>
         <button class="btn primary" id="joinBtn">Join</button>
         <button class="btn" id="cancelBtn">Cancel</button>
       </div>
-      <div class="hint">Tip: Put the room code on the projector so everyone types the same one.</div>
     </div>
   </div>
 
 <script>
 (() => {
   const $ = (id) => document.getElementById(id);
-  const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
 
-  // -------- stable helpers --------
-  function mulberry32(seed){
-    let t = seed >>> 0;
-    return function(){
-      t += 0x6D2B79F5;
-      let r = Math.imul(t ^ (t >>> 15), 1 | t);
-      r ^= r + Math.imul(r ^ (r >>> 7), 61 | r);
-      return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
-    };
-  }
-
-  function hash32(str){
-    let h = 2166136261 >>> 0;
-    for (let i=0;i<str.length;i++){
-      h ^= str.charCodeAt(i);
-      h = Math.imul(h, 16777619);
-    }
-    return h >>> 0;
-  }
-
-  function haptic(pattern=[16]){
-    if (navigator.vibrate) navigator.vibrate(pattern);
-  }
-
-  function fmtMs(ms){
-    const sign = ms < 0 ? "−" : "+";
-    return `${sign}${Math.abs(Math.round(ms))}ms`;
-  }
-
-  // -------- UI --------
+  // --- UI ---
   const stage = $("stage");
-  const heartArea = $("heartArea");
+  const heartWrap = $("heartWrap");
   const heart = $("heart");
-  const burst = $("burst");
-  const meterFill = $("meterFill");
-  const feedback = $("feedback");
-  const feedbackTitle = $("feedbackTitle");
-  const feedbackSub = $("feedbackSub");
-  const nextInEl = $("nextIn");
-
+  const msg = $("msg");
+  const msgTitle = $("msgTitle");
+  const msgSub = $("msgSub");
   const modeText = $("modeText");
   const roomText = $("roomText");
-  const buildEl = $("build");
-  const bestEl = $("best");
-  const lastEl = $("last");
+  const buildText = $("buildText");
 
   const roomBtn = $("roomBtn");
   const practiceBtn = $("practiceBtn");
@@ -524,364 +295,170 @@
   const joinBtn = $("joinBtn");
   const cancelBtn = $("cancelBtn");
 
-  // -------- game tuning --------
-  const WINDOW_MS = 360;          // forgiving = easy
-  const PRACTICE_MIN = 1400;
-  const PRACTICE_MAX = 2800;
+  // --- Simple game rules ---
+  const BUILD_MAX = 7;
+  const GLOW_EVERY_MS = 2400;      // easy rhythm
+  const GLOW_ON_MS = 650;          // how long the glow stays "tap-able"
 
-  const ROOM_BEAT_MS = 2400;      // nice rhythm
-  const ROOM_JITTER_MS = 520;     // feels alive but synced
-
-  const BUILD_MAX = 7;            // grow steps until BOOM
-
-  const POSITIVE_WORDS = [
+  const WORDS = [
     "You belong here.",
     "We’re glad you came.",
-    "Kind hearts, bright minds.",
-    "You are warmly welcomed.",
-    "Today is a good day to meet.",
     "Your presence is a gift.",
-    "We rise together.",
-    "Brave, bright, beloved.",
-    "You make this room better.",
-    "Lovely to have you with us.",
+    "Kind hearts, bright minds.",
+    "Lovely to meet you.",
+    "Today, we rise together.",
+    "You make this room warmer.",
+    "Welcome — truly.",
     "Small taps, big joy.",
-    "This is your place too."
+    "You are warmly welcomed."
   ];
 
-  // -------- state --------
-  let mode = "practice";          // "practice" | "room"
+  // --- State ---
+  let mode = "practice";
   let roomCode = "";
-  let roomSeed = 0;
-  let roomStartEpoch = 0;
-
-  let nextGlowAt = 0;             // perf timestamp for peak
-  let acceptingTap = false;
-  let lastTapAt = 0;
-
   let build = 0;
-  let best = 0;
 
-  // -------- room from URL (optional) --------
-  const params = new URLSearchParams(location.search);
-  const initialRoom = (params.get("room") || "").trim();
-  if (initialRoom) {
-    joinRoom(initialRoom, /*replaceUrl*/false);
-  } else {
-    setMode("practice");
-    scheduleNextGlow();
-    showFeedback("READY", "Wait for the glow…", null);
+  let isGlowing = false;
+  let glowTimer = null;
+  let loopTimer = null;
+
+  function showMessage(title, sub){
+    msgTitle.textContent = title;
+    msgSub.textContent = sub;
+    msg.classList.add("show");
+    clearTimeout(showMessage._t);
+    showMessage._t = setTimeout(() => msg.classList.remove("show"), 1200);
   }
 
-  // -------- mode / room logic --------
-  function setMode(next){
-    mode = next;
-    modeText.textContent = mode === "room" ? "Room" : "Practice";
-    roomText.textContent = mode === "room" ? roomCode : "—";
+  function setMode(nextMode){
+    mode = nextMode;
+    modeText.textContent = (mode === "room") ? "Room" : "Practice";
+    roomText.textContent = (mode === "room") ? roomCode : "—";
   }
 
-  function joinRoom(code, replaceUrl=true){
-    roomCode = code.toLowerCase().replace(/\s+/g,"").slice(0,24) || "isa";
+  function setBuild(n){
+    build = Math.max(0, Math.min(BUILD_MAX, n));
+    buildText.textContent = String(build);
 
-    // Seed: hostname+pathname+roomCode (so same page + same code syncs)
-    const key = `${location.hostname}${location.pathname}::${roomCode}`;
-    roomSeed = hash32(key);
-
-    // A stable anchor so everyone shares the same schedule even if they join later:
-    // Anchor = Jan 1 2026 UTC + roomSeed offset within 7 days
-    const ANCHOR_UTC = Date.UTC(2026,0,1,0,0,0,0);
-    roomStartEpoch = ANCHOR_UTC + (roomSeed % (7*24*60*60*1000));
-
-    if (replaceUrl){
-      const url = new URL(location.href);
-      url.searchParams.set("room", roomCode);
-      history.replaceState({}, "", url.toString());
-    }
-
-    setMode("room");
-    resetRoundVisuals();
-    scheduleNextGlow();
-    showFeedback("WELCOME", "Now everyone tap on the glow peak ❤️", "accent");
-  }
-
-  // -------- scheduling --------
-  function scheduleNextGlow(){
-    const nowPerf = performance.now();
-
-    if (mode === "practice") {
-      const delay = Math.floor(PRACTICE_MIN + (PRACTICE_MAX - PRACTICE_MIN) * Math.random());
-      planGlow(nowPerf + delay);
-    } else {
-      const nowEpoch = Date.now();
-      const t = nowEpoch - roomStartEpoch;
-      const beatIndex = t < 0 ? 0 : Math.floor(t / ROOM_BEAT_MS) + 1;
-
-      const localRng = mulberry32((roomSeed ^ (beatIndex * 2654435761)) >>> 0);
-      const jitter = (localRng() * 2 - 1) * ROOM_JITTER_MS;
-
-      const nextBeatEpoch = roomStartEpoch + beatIndex * ROOM_BEAT_MS + jitter;
-
-      // map epoch -> perf
-      const epochToPerfOffset = performance.now() - Date.now();
-      planGlow(nextBeatEpoch + epochToPerfOffset);
-    }
-  }
-
-  function planGlow(peakPerf){
-    nextGlowAt = peakPerf;
-    const glowStartAt = peakPerf - 220;
-
-    tickCountdown();
-
-    const now = performance.now();
-    const startDelay = Math.max(0, glowStartAt - now);
-    const peakDelay  = Math.max(0, peakPerf - now);
-
-    setTimeout(() => {
-      stage.classList.add("glowOn");
-      acceptingTap = true;
-    }, startDelay);
-
-    setTimeout(() => {
-      showFeedback("TAP!", "Together—right on the glow ❤️", "accent");
-      haptic([12]);
-      setTimeout(() => stage.classList.remove("glowOn"), 760);
-
-      // Miss handling
-      setTimeout(() => {
-        if (acceptingTap) {
-          acceptingTap = false;
-          // gentle penalty: lose 1 build (not full reset)
-          build = Math.max(0, build - 1);
-          buildEl.textContent = String(build);
-          meterFill.style.width = "0%";
-          lastEl.textContent = "Miss";
-          applyHeartScale();
-          showFeedback("OOPS", "No worries—catch the next one.", "warn");
-          haptic([20, 30, 20]);
-        }
-        scheduleNextGlow();
-      }, WINDOW_MS + 40);
-
-    }, peakDelay);
-  }
-
-  function tickCountdown(){
-    if (!nextGlowAt) return;
-    const now = performance.now();
-    const ms = Math.max(0, nextGlowAt - now);
-    nextInEl.textContent = `Next glow in: ${Math.ceil(ms/100)/10}s`;
-    requestAnimationFrame(tickCountdown);
-  }
-
-  // -------- scoring / build-up --------
-  function onTap(){
-    const t = performance.now();
-    if (t - lastTapAt < 120) return;
-    lastTapAt = t;
-
-    if (!nextGlowAt) return;
-
-    const delta = t - nextGlowAt;
-    const absDelta = Math.abs(delta);
-
-    if (absDelta <= WINDOW_MS) {
-      acceptingTap = false;
-      const sync = clamp(1 - (absDelta / WINDOW_MS), 0, 1);
-      const pct = Math.round(sync * 100);
-
-      best = Math.max(best, pct);
-      bestEl.textContent = String(best);
-      lastEl.textContent = `${pct}%`;
-
-      meterFill.style.width = `${pct}%`;
-
-      // EASY & FUN: any decent tap builds up; great taps build faster
-      const add =
-        pct >= 92 ? 2 :
-        pct >= 70 ? 1 :
-        0;
-
-      if (add > 0) {
-        build = clamp(build + add, 0, BUILD_MAX);
-        buildEl.textContent = String(build);
-      }
-
-      applyHeartScale();
-
-      // feedback copy (friendly + a tiny aristocratic flourish)
-      if (pct >= 92) {
-        showFeedback("DIVINE", `Harmony ${pct}% • Δ ${fmtMs(delta)}`, "good");
-        haptic([18, 25, 18]);
-      } else if (pct >= 70) {
-        showFeedback("LOVELY", `Harmony ${pct}% • Δ ${fmtMs(delta)}`, "accent");
-        haptic([14, 18]);
-      } else {
-        showFeedback("CLOSE", `Harmony ${pct}% • Δ ${fmtMs(delta)}`, "warn");
-        haptic([12]);
-      }
-
-      // BOOM
-      if (build >= BUILD_MAX) {
-        setTimeout(() => boomMoment(), 180);
-      } else {
-        setTimeout(() => scheduleNextGlow(), 240);
-      }
-
-    } else {
-      showFeedback("STEADY", "Not yet—wait for the glow peak.", "warn");
-      haptic([8]);
-    }
-  }
-
-  function applyHeartScale(){
-    // base scale grows with build
-    const base = 1 + (build / BUILD_MAX) * 0.55; // up to 1.55
-    stage.style.setProperty("--baseScale", base.toFixed(3));
+    const base = 1 + (build / BUILD_MAX) * 0.55; // grows up to 1.55
+    stage.style.setProperty("--base", base.toFixed(3));
     heart.style.transform = `scale(${base})`;
-    heart.style.filter =
-      build >= BUILD_MAX - 1
-        ? "drop-shadow(0 0 26px rgba(216,90,122,.55)) drop-shadow(0 0 60px rgba(197,160,89,.35))"
-        : "drop-shadow(0 18px 35px rgba(216,90,122,.16))";
   }
 
-  function boomMoment(){
-    // explode visuals
-    fireSparks();
+  function startLoop(){
+    stopLoop();
+    // immediate gentle intro
+    showMessage("READY", "When it glows… everyone taps ❤️");
 
-    // reveal positive words
-    const rng = mulberry32((roomSeed ^ (Date.now() & 0xffffffff)) >>> 0);
-    const msg = POSITIVE_WORDS[Math.floor(rng() * POSITIVE_WORDS.length)];
-
-    showFeedback("BOOM ✨", msg, "good");
-    haptic([30, 40, 30]);
-
-    // reset build gently (so game loops)
-    build = 0;
-    buildEl.textContent = "0";
-    meterFill.style.width = "0%";
-    applyHeartScale();
-
-    setTimeout(() => scheduleNextGlow(), 600);
-  }
-
-  function fireSparks(){
-    burst.innerHTML = "";
-    burst.classList.remove("show");
-
-    const count = 18;
-    for (let i=0;i<count;i++){
-      const s = document.createElement("div");
-      s.className = "spark";
-      const angle = (Math.PI * 2) * (i / count);
-      const dist = 80 + Math.random() * 130;
-      const dx = Math.cos(angle) * dist;
-      const dy = Math.sin(angle) * dist;
-      s.style.setProperty("--dx", dx.toFixed(1) + "px");
-      s.style.setProperty("--dy", dy.toFixed(1) + "px");
-      s.style.left = "50%";
-      s.style.top = "50%";
-      s.style.marginLeft = "-5px";
-      s.style.marginTop = "-5px";
-      s.style.animationDelay = (Math.random()*60) + "ms";
-      burst.appendChild(s);
+    // steady rhythm; optional tiny offset based on room code so rooms feel distinct
+    let offset = 0;
+    if (mode === "room" && roomCode) {
+      offset = (hash32(roomCode) % 500); // 0..499ms (not “precision”, just flavor)
     }
 
-    burst.classList.add("show");
-    setTimeout(() => burst.classList.remove("show"), 920);
+    setTimeout(() => {
+      glowOnce();
+      loopTimer = setInterval(glowOnce, GLOW_EVERY_MS);
+    }, 900 + offset);
   }
 
-  function showFeedback(title, sub, tone){
-    feedbackTitle.textContent = title;
-    feedbackSub.textContent = sub;
-
-    feedbackTitle.style.color =
-      tone === "good" ? "var(--good)" :
-      tone === "warn" ? "var(--warn)" :
-      tone === "bad" ? "var(--bad)" :
-      tone === "accent" ? "var(--rose)" :
-      "var(--ink)";
-
-    feedback.classList.add("show");
-    clearTimeout(showFeedback._t);
-    showFeedback._t = setTimeout(() => feedback.classList.remove("show"), 950);
+  function stopLoop(){
+    clearInterval(loopTimer);
+    clearTimeout(glowTimer);
+    loopTimer = null;
+    glowTimer = null;
+    isGlowing = false;
+    stage.classList.remove("glow");
   }
 
-  // -------- reset / modal --------
-  function resetRoundVisuals(){
-    acceptingTap = false;
-    nextGlowAt = 0;
-    build = 0;
-    best = 0;
-    buildEl.textContent = "0";
-    bestEl.textContent = "0";
-    lastEl.textContent = "—";
-    meterFill.style.width = "0%";
-    stage.classList.remove("glowOn");
-    applyHeartScale();
+  function glowOnce(){
+    isGlowing = true;
+    stage.classList.add("glow");
+    showMessage("TAP!", "Now — together ❤️");
+
+    glowTimer = setTimeout(() => {
+      isGlowing = false;
+      stage.classList.remove("glow");
+    }, GLOW_ON_MS);
   }
 
-  function openModal(){
+  function boom(){
+    const word = WORDS[Math.floor(Math.random() * WORDS.length)];
+    showMessage("BOOM ✨", word);
+    // little “reset” so the group can keep playing
+    setBuild(0);
+  }
+
+  function onTap(){
+    if (!isGlowing) {
+      showMessage("STEADY", "Wait for the glow, darling.");
+      return;
+    }
+    // successful tap
+    setBuild(build + 1);
+
+    // tiny feedback
+    showMessage("NICE", "Keep it going…");
+
+    // prevent double counting the same glow
+    isGlowing = false;
+    stage.classList.remove("glow");
+
+    if (build >= BUILD_MAX) boom();
+  }
+
+  function openRoomModal(){
     overlay.classList.add("show");
-    overlay.setAttribute("aria-hidden", "false");
-    roomInput.value = initialRoom || "isa";
+    roomInput.value = roomCode || "isa";
     setTimeout(() => roomInput.focus(), 50);
   }
-  function closeModal(){
-    overlay.classList.remove("show");
-    overlay.setAttribute("aria-hidden", "true");
+  function closeRoomModal(){ overlay.classList.remove("show"); }
+
+  function joinRoom(code){
+    roomCode = (code || "").trim().toLowerCase().replace(/\s+/g,"").slice(0,24) || "isa";
+    setMode("room");
+    setBuild(0);
+    startLoop();
+    showMessage("WELCOME", `Room “${roomCode}” — tap together ❤️`);
   }
 
-  // -------- events --------
-  stage.addEventListener("pointerdown", () => onTap(), {passive:true});
+  function hash32(str){
+    let h = 2166136261 >>> 0;
+    for (let i=0;i<str.length;i++){
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return h >>> 0;
+  }
+
+  // --- Events ---
+  stage.addEventListener("pointerdown", onTap, {passive:true});
   tapBtn.addEventListener("click", onTap);
 
-  window.addEventListener("keydown", (e) => {
-    if (e.code === "Space" || e.key.toLowerCase() === "t") {
-      e.preventDefault();
-      onTap();
-    }
-    if (e.key === "Escape") closeModal();
-  });
+  roomBtn.addEventListener("click", openRoomModal);
+  cancelBtn.addEventListener("click", closeRoomModal);
+  joinBtn.addEventListener("click", () => { closeRoomModal(); joinRoom(roomInput.value); });
 
-  roomBtn.addEventListener("click", openModal);
-  cancelBtn.addEventListener("click", closeModal);
-
-  joinBtn.addEventListener("click", () => {
-    const code = (roomInput.value || "").trim();
-    closeModal();
-    joinRoom(code);
-  });
-
-  overlay.addEventListener("click", (e) => {
-    if (e.target === overlay) closeModal();
-  });
+  overlay.addEventListener("click", (e) => { if (e.target === overlay) closeRoomModal(); });
 
   practiceBtn.addEventListener("click", () => {
-    // remove room param
-    const url = new URL(location.href);
-    url.searchParams.delete("room");
-    history.replaceState({}, "", url.toString());
-
     setMode("practice");
-    resetRoundVisuals();
-    scheduleNextGlow();
-    showFeedback("PRACTICE", "Warm up your timing—then join the room.", "accent");
+    roomCode = "";
+    roomText.textContent = "—";
+    setBuild(0);
+    startLoop();
+    showMessage("PRACTICE", "Warm up the rhythm ❤️");
   });
 
   resetBtn.addEventListener("click", () => {
-    resetRoundVisuals();
-    scheduleNextGlow();
-    showFeedback("RESET", "A fresh start. Ready when you are.", null);
+    setBuild(0);
+    showMessage("RESET", "Fresh start. Ready?");
   });
 
-  // iOS double-tap zoom guard
-  let lastTouchEnd = 0;
-  document.addEventListener("touchend", (e) => {
-    const now = Date.now();
-    if (now - lastTouchEnd <= 250) e.preventDefault();
-    lastTouchEnd = now;
-  }, { passive:false });
+  // --- Init ---
+  setBuild(0);
+  setMode("practice");
+  startLoop();
 
 })();
 </script>
