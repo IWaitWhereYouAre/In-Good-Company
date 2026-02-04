@@ -46,20 +46,25 @@
       position:relative;
     }
 
-    /* dreamy dust */
+    /* dreamy dust (FIXED) */
     body::before{
       content:"";
       position:fixed;
       inset:-30%;
       pointer-events:none;
       background:
-             opacity:.55;
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,.38) 0 1px, transparent 2px),
+        radial-gradient(circle at 70% 20%, rgba(255,255,255,.30) 0 1px, transparent 2px),
+        radial-gradient(circle at 40% 80%, rgba(255,255,255,.26) 0 1px, transparent 2px),
+        radial-gradient(circle at 85% 75%, rgba(255,255,255,.22) 0 1px, transparent 2px);
+      background-size: 140px 140px, 180px 180px, 220px 220px, 260px 260px;
+      opacity:.55;
       filter: blur(.2px);
       transform: rotate(-7deg);
       mix-blend-mode: screen;
     }
 
-    /* garden edge glow (vines without images) */
+    /* garden edge glow */
     body::after{
       content:"";
       position:fixed;
@@ -78,13 +83,63 @@
     /* =========================
        SECRET GARDEN FX LAYER
        ========================= */
-  
+    #gardenFX{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+      overflow:hidden;
+    }
+
+    .petal{
+      position:absolute;
+      border-radius: 999px 999px 999px 999px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.65), transparent 55%),
+                  linear-gradient(180deg, rgba(255,255,255,.25), rgba(0,0,0,.06));
+      box-shadow: 0 14px 28px rgba(0,0,0,.08);
+      transform: translate3d(0,0,0) rotate(var(--r0)) scale(var(--s));
+      filter: saturate(1.05);
+      opacity:.95;
+      overflow:hidden;
+      animation: petalFall var(--dur) linear forwards;
+    }
+    .petal::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), transparent 55%),
+                  linear-gradient(180deg, var(--c), rgba(255,255,255,.18));
+      mix-blend-mode:multiply;
+      opacity:.95;
+    }
+    @keyframes petalFall{
+      0%   { transform: translate3d(0,0,0) rotate(var(--r0)) scale(var(--s)); }
+      50%  { transform: translate3d(calc(var(--drift)*.55), 55vh, 0) rotate(calc((var(--r0) + var(--r1)) * .5)) scale(var(--s)); }
+      100% { transform: translate3d(var(--drift), 110vh, 0) rotate(var(--r1)) scale(var(--s)); opacity:0.0; }
+    }
+
+    .spark{
+      position:absolute;
+      border-radius:999px;
+      background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.95), rgba(255,255,255,.25) 45%, transparent 70%);
+      filter: blur(.2px);
+      opacity:.9;
+      animation: sparkFloat var(--tdur) ease-in-out forwards;
+      box-shadow: 0 0 24px rgba(255,255,255,.35);
+    }
+    @keyframes sparkFloat{
+      0%   { transform: translate3d(0,0,0) scale(.85); opacity:0; }
+      12%  { opacity:.95; }
+      60%  { transform: translate3d(var(--sdx), var(--sdy), 0) scale(1.0); opacity:.85; }
+      100% { transform: translate3d(calc(var(--sdx)*1.35), calc(var(--sdy)*1.35), 0) scale(.65); opacity:0; }
+    }
+
     @media (prefers-reduced-motion: reduce){
       #gardenFX{ display:none; }
     }
 
     /* =========================
-       CARD (paper)
+       CARD
        ========================= */
     .manuscript{
       width:min(590px, 92vw);
@@ -190,7 +245,6 @@
     .p3{ bottom:10px; left:10px; --rot:6deg; }
     .p4{ bottom:10px; right:10px; --rot:-6deg; }
 
-    /* text / inputs / button (same as yours) */
     .welcome{
       display:flex;
       align-items:center;
@@ -319,6 +373,9 @@
     button:hover{ transform: translateY(-1px); filter: brightness(1.03); }
     button:active{ transform: translateY(0px) scale(.99); }
 
+    /* =========================
+       OVERLAY (fixed + prettier)
+       ========================= */
     #overlay{
       position:fixed;
       inset:0;
@@ -341,14 +398,75 @@
       position:relative;
       overflow:hidden;
     }
-    .reveal h2{
+
+    .reveal::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(520px 260px at 30% 20%, rgba(244,217,227,.55), transparent 60%),
+        radial-gradient(520px 260px at 75% 28%, rgba(219,233,255,.48), transparent 60%),
+        radial-gradient(520px 260px at 55% 82%, rgba(223,240,232,.50), transparent 62%);
+      opacity:.85;
+      pointer-events:none;
+    }
+
+    .reveal .bloom{
       font-family:"Parisienne", cursive;
-      font-size:58px;
+      font-size:62px;
       color:rgba(200,163,90,.98);
-      margin:10px 0 6px;
+      margin:0;
       position:relative;
       z-index:1;
       text-shadow: 0 10px 30px rgba(200,163,90,.18);
+    }
+
+    .sparkline{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      margin:12px auto 18px;
+      position:relative;
+      z-index:1;
+      color: rgba(200,163,90,.92);
+      font-family:"Fraunces", serif;
+      letter-spacing:.10em;
+      font-size:12px;
+      text-transform:uppercase;
+    }
+    .sparkline::before,
+    .sparkline::after{
+      content:"";
+      height:1px;
+      width: clamp(48px, 12vw, 120px);
+      background: linear-gradient(90deg, transparent, rgba(200,163,90,.9), transparent);
+      opacity:.9;
+    }
+
+    .team{
+      font-family:"Fraunces", serif;
+      font-weight:600;
+      font-size: clamp(18px, 3.3vw, 24px);
+      color: rgba(34,34,42,.90);
+      margin: 2px 0 10px;
+      position:relative;
+      z-index:1;
+    }
+
+    .note{
+      margin:0 auto 16px;
+      max-width:52ch;
+      color: rgba(34,34,42,.72);
+      font-size:16px;
+      line-height:1.45;
+      position:relative;
+      z-index:1;
+    }
+
+    .return-btn{
+      margin-top: 10px;
+      width:min(340px,100%);
     }
 
     @media (max-width: 420px){
@@ -357,11 +475,17 @@
       .pcorner::after{ font-size:36px; }
       .pcorner .centerSuit{ font-size:26px; }
       .val{ font-size: clamp(64px, 12vw, 86px); }
+
+      .reveal{ padding:40px 22px; }
+      .reveal .bloom{ font-size:56px; }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- FX layer exists now -->
+  <div id="gardenFX" aria-hidden="true"></div>
 
   <div class="manuscript">
     <div class="frame"></div>
@@ -402,7 +526,7 @@
 
       <div class="field">
         <label for="partner-val">Your Companion’s Number</label>
-        <input type="number" id="partner-val" placeholder="Enter number" />
+        <input type="number" id="partner-val" placeholder="Enter number" inputmode="numeric" />
       </div>
 
       <div class="field">
@@ -414,17 +538,21 @@
     </div>
   </div>
 
-<div id="overlay">
-  <div class="reveal">
-    <h1 class="bloom-text">Bloomed</h1>
-    
-    <div class="divider">✧</div>
+  <div id="overlay" role="dialog" aria-modal="true" aria-label="Bloomed">
+    <div class="reveal">
+      <h2 class="bloom">Bloomed</h2>
+      <div class="sparkline">✧</div>
 
-    <button type="button" class="return-btn" onclick="location.reload()">
-      Leave the Garden
-    </button>
+      <div class="team" id="team-name">—</div>
+      <p class="note">
+        Your numbers aligned — welcome to the garden. Keep this moment soft and secret.
+      </p>
+
+      <button type="button" class="return-btn" onclick="location.reload()">
+        Leave the Garden
+      </button>
+    </div>
   </div>
-</div>
 
   <script>
     const SECRET_KEY = "heart to heart";
@@ -484,7 +612,7 @@
       const drift = rand(-180, 180);
 
       const colors = [
-        "rgba(244,217,227,.88)", // blush petal
+        "rgba(244,217,227,.88)", // blush
         "rgba(243,223,179,.82)", // champagne
         "rgba(223,240,232,.86)", // sage
         "rgba(219,233,255,.82)"  // sky
@@ -494,16 +622,12 @@
       el.style.left = x + "px";
       el.style.top  = rand(-60, -10) + "px";
 
-      el.style.setProperty("--x", "0px");
-      el.style.setProperty("--y0", "0px");
-      el.style.setProperty("--y1", "0px");
       el.style.setProperty("--drift", drift + "px");
       el.style.setProperty("--dur", dur + "s");
       el.style.setProperty("--s", scale);
       el.style.setProperty("--r0", r0 + "deg");
       el.style.setProperty("--r1", r1 + "deg");
 
-      // slight size variety
       const w = rand(14, 22);
       const h = w * rand(1.25, 1.55);
       el.style.width = w + "px";
@@ -526,13 +650,10 @@
       el.style.left = x + "px";
       el.style.top  = y + "px";
 
-      el.style.setProperty("--sx", "0px");
-      el.style.setProperty("--sy", "0px");
       el.style.setProperty("--sdx", rand(-40, 40) + "px");
       el.style.setProperty("--sdy", rand(-50, 30) + "px");
       el.style.setProperty("--tdur", rand(2.8, 4.6) + "s");
 
-      // tiny size variation
       const size = rand(4, 7);
       el.style.width = size + "px";
       el.style.height = size + "px";
@@ -548,11 +669,9 @@
       if (prefersReduced) return;
       if (petalTimer || sparkTimer) return;
 
-      // gentle start burst
       for(let i=0;i<10;i++) setTimeout(spawnPetal, i*120);
       for(let i=0;i<12;i++) setTimeout(spawnSpark, i*140);
 
-      // steady ambience
       petalTimer = setInterval(() => {
         spawnPetal();
         if (Math.random() < 0.35) spawnPetal();
@@ -576,4 +695,3 @@
   </script>
 </body>
 </html>
-
