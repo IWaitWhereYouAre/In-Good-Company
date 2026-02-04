@@ -40,6 +40,7 @@
         radial-gradient(900px 650px at 50% 90%, rgba(223,236,229,.75) 0%, rgba(223,236,229,0) 55%),
         linear-gradient(180deg, #f9f5ee 0%, #f2ebe1 100%);
       overflow:hidden;
+      position:relative; /* important for layering */
     }
 
     /* Secret-garden atmosphere: soft vines + sparkles (no images) */
@@ -80,6 +81,66 @@
       mix-blend-mode:multiply;
     }
 
+    /* =========================
+       SPARKLY HEARTS BACKGROUND
+       ========================= */
+    #hearts{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index:0; /* behind the card */
+      filter: blur(.1px);
+    }
+
+    .heart{
+      position:absolute;
+      left:0;
+      top:0;
+      transform: translate(-50%, -50%);
+      font-size: 18px;
+      opacity: 0;
+      will-change: transform, opacity, filter;
+      animation: floatHeart var(--dur, 3.6s) ease-in forwards;
+      text-shadow:
+        0 0 10px rgba(240,217,166,.55),
+        0 0 18px rgba(200,163,90,.35);
+    }
+
+    /* shimmer sparkle (subtle) */
+    .heart::after{
+      content:"";
+      position:absolute;
+      inset:-10px;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(255,255,255,.7) 0 2px, transparent 3px),
+        radial-gradient(circle at 70% 65%, rgba(255,255,255,.55) 0 1.5px, transparent 3px);
+      opacity:.55;
+      mix-blend-mode:screen;
+      transform: rotate(12deg);
+      pointer-events:none;
+    }
+
+    @keyframes floatHeart{
+      0%{
+        opacity: 0;
+        transform: translate(var(--x, 0px), var(--y0, 20px)) scale(var(--s, 1)) rotate(var(--r0, -6deg));
+        filter: blur(.2px);
+      }
+      12%{ opacity: .75; }
+      55%{ opacity: .55; }
+      100%{
+        opacity: 0;
+        transform: translate(calc(var(--x, 0px) + var(--drift, 30px)), var(--y1, -180px)) scale(calc(var(--s, 1) * 1.08)) rotate(var(--r1, 8deg));
+        filter: blur(.35px);
+      }
+    }
+
+    /* respect reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      #hearts{ display:none; }
+    }
+
     .manuscript{
       width:min(560px, 92vw);
       padding:44px 36px 40px;
@@ -90,6 +151,7 @@
       text-align:center;
       overflow:hidden;
       backdrop-filter: blur(6px);
+      z-index:1; /* above hearts */
     }
 
     /* softer paper + botanical hint */
@@ -342,6 +404,9 @@
 </head>
 
 <body>
+  <!-- sparkly hearts layer -->
+  <div id="hearts" aria-hidden="true"></div>
+
   <div class="manuscript">
     <div class="frame"></div>
     <div class="corner c1"></div>
@@ -352,7 +417,7 @@
     <div class="welcome">
       <span class="line"></span>
       <div class="text">
-        <strong>ISA Chulalongkorn</strong> warmly welcomes you to <em>Heart to Heart</em>
+        <strong>ISA Chulalongkorn>
       </div>
       <span class="line"></span>
     </div>
@@ -374,7 +439,7 @@
 
     <div class="field">
       <label>The Key</label>
-      <input type="password" id="host-key" placeholder="Heart to Heart" />
+      <input type="password" id="host-key" placeholder=</label>
     </div>
 
     <button onclick="attemptBond()">Join Heart</button>
@@ -421,6 +486,90 @@
         alert("Not quite yet — keep searching for the perfect companion.");
       }
     }
+
+    /* =========================
+       SPARKLY HEARTS ENGINE
+       ========================= */
+    const heartsLayer = document.getElementById("hearts");
+
+    function rand(min, max){ return Math.random() * (max - min) + min; }
+
+    function spawnHeart(){
+      const el = document.createElement("span");
+      el.className = "heart";
+
+      // choose heart glyph (soft + sparkly)
+      const glyphs = ["❤","♥","❥","♡","💛","💖","✨"];
+      el.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      // start near bottom, random x
+      const startX = rand(0.08, 0.92) * vw;
+      const startY = vh + rand(10, 60);
+
+      // float upward with slight drift
+      const drift = rand(-60, 60);
+      const dur = rand(2.8, 4.4);      // seconds
+      const scale = rand(0.75, 1.55);
+      const r0 = rand(-14, -4);
+      const r1 = rand(6, 18);
+
+      // color tint: gold/blush/leaf
+      const colors = [
+        "rgba(240,217,166,.85)",
+        "rgba(200,163,90,.85)",
+        "rgba(243,217,223,.85)",
+        "rgba(62,107,85,.55)"
+      ];
+      el.style.color = colors[Math.floor(Math.random()*colors.length)];
+
+      el.style.left = startX + "px";
+      el.style.top  = startY + "px";
+
+      el.style.setProperty("--x", "0px");
+      el.style.setProperty("--y0", "0px");
+      el.style.setProperty("--y1", (-rand(160, 280)) + "px");
+      el.style.setProperty("--drift", drift + "px");
+      el.style.setProperty("--dur", dur + "s");
+      el.style.setProperty("--s", scale);
+      el.style.setProperty("--r0", r0 + "deg");
+      el.style.setProperty("--r1", r1 + "deg");
+
+      heartsLayer.appendChild(el);
+
+      // cleanup
+      el.addEventListener("animationend", () => el.remove());
+    }
+
+    // spawn rate: subtle
+    let heartTimer = null;
+    function startHearts(){
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (heartTimer) return;
+
+      // burst a little at start
+      for(let i=0;i<8;i++){
+        setTimeout(spawnHeart, i * 120);
+      }
+
+      heartTimer = setInterval(() => {
+        // 1–2 hearts per tick
+        spawnHeart();
+        if (Math.random() < 0.35) spawnHeart();
+      }, 520);
+    }
+
+    startHearts();
+    window.addEventListener("visibilitychange", () => {
+      if (document.hidden){
+        clearInterval(heartTimer);
+        heartTimer = null;
+      } else {
+        startHearts();
+      }
+    });
   </script>
 </body>
 </html>
