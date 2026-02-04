@@ -3,69 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine Alchemy</title>
+    <title>The Royal Alchemy</title>
     <style>
-        :root { --bg-color: #1a1a1a; --primary: #ff4d6d; }
-        body {
-            margin: 0; font-family: 'Segoe UI', sans-serif;
-            background: var(--bg-color); color: white;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            height: 100vh; transition: background 0.5s ease; text-align: center;
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@0,400;1,700&display=swap');
+
+        :root {
+            --burgundy: #630d16;
+            --gold: #d4af37;
+            --cream: #fffaf0;
         }
-        .card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; border: 2px solid var(--primary); box-shadow: 0 0 20px rgba(255, 77, 109, 0.2); }
-        .val { font-size: 3.5rem; font-weight: bold; color: var(--primary); margin: 10px 0; text-shadow: 0 0 10px var(--primary); }
-        input { padding: 12px; border-radius: 8px; border: none; width: 80px; font-size: 1.2rem; text-align: center; }
-        button { background: var(--primary); color: white; padding: 12px 24px; border: none; border-radius: 8px; font-weight: bold; margin-top: 15px; cursor: pointer; }
-        #success-msg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ff0040; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 100; }
+
+        body {
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+            background: var(--burgundy);
+            background-image: radial-gradient(circle, #80131d 0%, #4d0a11 100%);
+            color: var(--cream);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .frame {
+            border: 3px double var(--gold);
+            padding: 40px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            max-width: 85%;
+            position: relative;
+        }
+
+        h1 { font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.5rem; letter-spacing: 2px; margin-bottom: 5px; }
+        .heart-icon { font-size: 50px; color: var(--gold); margin-bottom: 10px; animation: pulse 2s infinite; }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); text-shadow: 0 0 0px var(--gold); }
+            50% { transform: scale(1.1); text-shadow: 0 0 20px var(--gold); }
+            100% { transform: scale(1); }
+        }
+
+        .essence-label { font-style: italic; font-size: 1.1rem; opacity: 0.9; }
+        .val { font-size: 4rem; font-weight: bold; color: var(--gold); margin: 5px 0; font-family: 'Cinzel', serif; }
+        
+        .instruction { font-size: 0.9rem; margin: 15px 0; line-height: 1.4; border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); padding: 10px 0; }
+
+        input { 
+            background: transparent; border: 1px solid var(--gold); color: var(--cream);
+            padding: 10px; border-radius: 5px; width: 80px; text-align: center; font-size: 1.2rem;
+            margin: 5px;
+        }
+
+        button {
+            background: var(--gold); color: var(--burgundy); border: none; padding: 12px 25px;
+            font-weight: bold; border-radius: 5px; cursor: pointer; font-family: 'Cinzel', serif;
+            margin-top: 15px; transition: 0.3s;
+        }
+
+        button:hover { transform: scale(1.05); background: #f1c40f; }
+
+        #success-msg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--burgundy); border: 10px inset var(--gold);
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 100; box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
 
-    <div id="game" class="card">
-        <h2 id="title">❤️ Your Soul Essence ❤️</h2>
+    <div id="game" class="frame">
+        <h1>Royal Alchemy</h1>
+        <div class="heart-icon">❦</div>
+        <div class="essence-label">Your Noble Essence</div>
         <div class="val" id="my-num">--</div>
-        <p>Goal: Find a partner to sum to <strong id="target-num">100</strong></p>
-        <div style="margin-top: 20px;">
-            <input type="number" id="partner-val" placeholder="???">
-            <button onclick="attemptBond()">Attempt Bond</button>
+        
+        <div class="instruction">
+            Find the soul whose essence <br> combined with yours equals <br> 
+            <strong id="target-num" style="color:var(--gold); font-size: 1.4rem;">100</strong>
         </div>
+
+        <div>
+            <input type="number" id="partner-val" placeholder="Their #">
+            <input type="password" id="host-key" placeholder="Passcode" style="width: 100px;">
+            <br>
+            <button onclick="attemptBond()">Commence Bonding</button>
+        </div>
+        <p style="font-size: 0.7rem; opacity: 0.5; margin-top: 15px;">Refresh to reset your destiny</p>
     </div>
 
     <div id="success-msg">
-        <h1 style="font-size: 3rem;">POOF! 🥂</h1>
-        <h2>Perfect Chemistry!</h2>
-        <p>Show this to the host!</p>
-        <button onclick="location.reload()" style="background: white; color: #ff0040;">Play Again</button>
+        <h1 style="font-size: 2.5rem;">❦ A Perfect Match ❦</h1>
+        <p style="font-size: 1.2rem; font-style: italic;">The stars have aligned for</p>
+        <h2 id="team-name" style="color: var(--gold); font-family: 'Cinzel', serif; font-size: 2rem;">The Duke & Duchess</h2>
+        <p>Present this seal to the Master of Ceremonies.</p>
+        <button onclick="location.reload()" style="background: var(--cream);">New Destiny</button>
     </div>
 
     <script>
-        // 1. Generate local state on load
-        const myValue = Math.floor(Math.random() * 70) + 15; // 15 to 85
-        const targets = [100, 110, 120]; // A few possible totals
+        // --- CONFIGURATION ---
+        const SECRET_PASSCODE = "123"; // Give this to people ONLY when they find their match!
+        const targets = [100, 110];
+        const teamNames = ["The Golden Roses", "The Burgundy Barons", "The Silk Souls", "The Velvet Hearts", "The Grand Royals"];
+
+        // Generate local state
+        const myValue = Math.floor(Math.random() * 60) + 20;
         const myTarget = targets[Math.floor(Math.random() * targets.length)];
 
         document.getElementById('my-num').innerText = myValue;
         document.getElementById('target-num').innerText = myTarget;
 
         function attemptBond() {
-            const input = document.getElementById('partner-val').value;
-            const partnerValue = parseInt(input);
-            
-            if (!partnerValue) return;
+            const partnerVal = parseInt(document.getElementById('partner-val').value);
+            const userPass = document.getElementById('host-key').value;
+            const sum = myValue + partnerVal;
 
-            const sum = myValue + partnerValue;
-            const diff = Math.abs(myTarget - sum);
-
-            // 2. Feedback Loop (Hot or Cold)
             if (sum === myTarget) {
-                document.getElementById('success-msg').style.display = 'flex';
-                if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-            } else if (diff < 10) {
-                document.body.style.background = "#601020"; // Very Warm
-                alert("So close! Your chemistries are nearly aligned.");
+                if (userPass === SECRET_PASSCODE) {
+                    const randomTeam = teamNames[Math.floor(Math.random() * teamNames.length)];
+                    document.getElementById('team-name').innerText = randomTeam;
+                    document.getElementById('success-msg').style.display = 'flex';
+                    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+                } else {
+                    alert("The math is divine! Now, seek the Master of Ceremonies for the 'Royal Passcode' to seal your bond.");
+                }
             } else {
-                document.body.style.background = "#1a1a1a"; // Cold
-                alert("No reaction... keep searching!");
+                alert("Alas, your essences do not align. Seek another.");
             }
         }
     </script>
