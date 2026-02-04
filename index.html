@@ -1,122 +1,73 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>ISA Pulse</title>
-  <style>
-    :root {
-      --bg: #000;
-      --primary: #d85a7a;
-      --gold: #c5a059;
-    }
-    body, html { 
-      margin: 0; padding: 0; height: 100%; 
-      background: var(--bg); color: white;
-      font-family: 'Inter', system-ui, sans-serif;
-      overflow: hidden; display: flex; justify-content: center; align-items: center;
-    }
-    #game-ui { text-align: center; transition: opacity 0.5s; }
-    
-    /* The Pulse Circle */
-    .pulse-container {
-      position: relative; width: 200px; height: 200px;
-      display: flex; justify-content: center; align-items: center;
-    }
-    .ring {
-      position: absolute; border: 2px solid var(--primary);
-      border-radius: 50%; opacity: 0.5;
-    }
-
-    /* Message Styles */
-    #welcome-screen {
-      position: fixed; inset: 0; display: none;
-      flex-direction: column; justify-content: center; align-items: center;
-      background: var(--gold); color: #1b1b1f; padding: 20px;
-      animation: flashIn 0.5s ease-out forwards;
-    }
-    h1 { font-size: 3rem; margin: 0; text-transform: uppercase; letter-spacing: -2px; }
-    p { font-size: 1.2rem; font-weight: bold; }
-
-    @keyframes flashIn {
-      from { opacity: 0; transform: scale(0.8); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    #timer { font-family: monospace; font-size: 14px; color: var(--primary); margin-top: 20px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Alchemy</title>
+    <style>
+        :root { --bg-color: #1a1a1a; --primary: #ff4d6d; }
+        body {
+            margin: 0; font-family: 'Segoe UI', sans-serif;
+            background: var(--bg-color); color: white;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 100vh; transition: background 0.5s ease; text-align: center;
+        }
+        .card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; border: 2px solid var(--primary); box-shadow: 0 0 20px rgba(255, 77, 109, 0.2); }
+        .val { font-size: 3.5rem; font-weight: bold; color: var(--primary); margin: 10px 0; text-shadow: 0 0 10px var(--primary); }
+        input { padding: 12px; border-radius: 8px; border: none; width: 80px; font-size: 1.2rem; text-align: center; }
+        button { background: var(--primary); color: white; padding: 12px 24px; border: none; border-radius: 8px; font-weight: bold; margin-top: 15px; cursor: pointer; }
+        #success-msg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ff0040; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 100; }
+    </style>
 </head>
 <body>
 
-  <div id="game-ui">
-    <p>Tap when the rings meet the center</p>
-    <div class="pulse-container" id="pulse-area">
-      <div class="ring" id="ring1"></div>
-      <div id="core">❤️</div>
+    <div id="game" class="card">
+        <h2 id="title">❤️ Your Soul Essence ❤️</h2>
+        <div class="val" id="my-num">--</div>
+        <p>Goal: Find a partner to sum to <strong id="target-num">100</strong></p>
+        <div style="margin-top: 20px;">
+            <input type="number" id="partner-val" placeholder="???">
+            <button onclick="attemptBond()">Attempt Bond</button>
+        </div>
     </div>
-    <div id="timer">Syncing...</div>
-  </div>
 
-  <div id="welcome-screen">
-    <h1>BOOM ✨</h1>
-    <p>ISA warmly welcome you guys!</p>
-    <div style="font-size: 5rem;">👋😊</div>
-  </div>
+    <div id="success-msg">
+        <h1 style="font-size: 3rem;">POOF! 🥂</h1>
+        <h2>Perfect Chemistry!</h2>
+        <p>Show this to the host!</p>
+        <button onclick="location.reload()" style="background: white; color: #ff0040;">Play Again</button>
+    </div>
 
-<script>
-  const welcome = document.getElementById('welcome-screen');
-  const gameUI = document.getElementById('game-ui');
-  const timerDisplay = document.getElementById('timer');
-  const ring1 = document.getElementById('ring1');
-  const core = document.getElementById('core');
+    <script>
+        // 1. Generate local state on load
+        const myValue = Math.floor(Math.random() * 70) + 15; // 15 to 85
+        const targets = [100, 110, 120]; // A few possible totals
+        const myTarget = targets[Math.floor(Math.random() * targets.length)];
 
-  // --- GLOBAL SYNC LOGIC ---
-  // The game ends at the next "even" 2-minute mark (e.g. 2:02, 2:04, 2:06)
-  const ROUND_DURATION = 120000; // 2 Minutes
-  let endTime = Math.ceil(Date.now() / ROUND_DURATION) * ROUND_DURATION;
-  
-  const PULSE_SPEED = 2000; // One pulse every 2 seconds
+        document.getElementById('my-num').innerText = myValue;
+        document.getElementById('target-num').innerText = myTarget;
 
-  function loop() {
-    const now = Date.now();
-    const timeLeft = endTime - now;
-    const pulseProgress = (now % PULSE_SPEED) / PULSE_SPEED;
+        function attemptBond() {
+            const input = document.getElementById('partner-val').value;
+            const partnerValue = parseInt(input);
+            
+            if (!partnerValue) return;
 
-    // 1. Synchronized Animation
-    // Rings shrink from 200px to 40px globally
-    const size = 200 - (pulseProgress * 160);
-    const opacity = pulseProgress;
-    ring1.style.width = ring1.style.height = size + 'px';
-    ring1.style.opacity = opacity;
-    core.style.transform = `scale(${1.2 - (pulseProgress * 0.4)})`;
+            const sum = myValue + partnerValue;
+            const diff = Math.abs(myTarget - sum);
 
-    // 2. Synchronized Timer
-    if (timeLeft <= 0) {
-      showBoom();
-      return;
-    }
-    
-    const seconds = Math.floor(timeLeft / 1000);
-    timerDisplay.innerText = `ISA CONNECTION IN: ${seconds}s`;
-
-    requestAnimationFrame(loop);
-  }
-
-  function showBoom() {
-    gameUI.style.display = 'none';
-    welcome.style.display = 'flex';
-    // Vibration for haptic "Boom"
-    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-  }
-
-  // Visual feedback for tapping
-  document.body.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    core.style.color = '#fff';
-    setTimeout(() => core.style.color = '', 100);
-  });
-
-  loop();
-</script>
+            // 2. Feedback Loop (Hot or Cold)
+            if (sum === myTarget) {
+                document.getElementById('success-msg').style.display = 'flex';
+                if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+            } else if (diff < 10) {
+                document.body.style.background = "#601020"; // Very Warm
+                alert("So close! Your chemistries are nearly aligned.");
+            } else {
+                document.body.style.background = "#1a1a1a"; // Cold
+                alert("No reaction... keep searching!");
+            }
+        }
+    </script>
 </body>
 </html>
