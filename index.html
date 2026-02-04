@@ -3,30 +3,39 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Tap-Together Challenge</title>
+  <title>Tap-Together | Heart Glow</title>
+
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;600;700&display=swap');
+
     :root{
-      --bg:#0b0e14;
-      --card:#0f1522;
-      --text:#eaf0ff;
-      --muted:rgba(234,240,255,.72);
-      --accent:#ff3b7a;
-      --accent2:#ff7aa9;
-      --good:#35d07f;
-      --warn:#ffcc66;
-      --bad:#ff5c5c;
+      --ink:#1b1b1f;
+      --muted:rgba(27,27,31,.72);
+      --paper:#fbf7ef;
+      --paper2:#f6efe2;
+      --gold:#c5a059;
+      --gold2:#e3c27a;
+      --rose:#d85a7a;
+      --rose2:#ff8fb0;
+      --good:#2f9d62;
+      --warn:#b8872f;
+      --bad:#c03b3b;
+
+      --panel: rgba(255,255,255,.58);
+      --panelBorder: rgba(27,27,31,.10);
+      --shadow: 0 18px 60px rgba(0,0,0,.18);
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
+      color:var(--ink);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background:
-        radial-gradient(1200px 800px at 50% 0%, rgba(255,59,122,.18), transparent 60%),
-        radial-gradient(900px 700px at 80% 80%, rgba(255,204,102,.10), transparent 55%),
-        var(--bg);
-      color:var(--text);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        radial-gradient(1200px 700px at 20% 5%, rgba(197,160,89,.22), transparent 55%),
+        radial-gradient(1000px 700px at 85% 70%, rgba(216,90,122,.14), transparent 60%),
+        linear-gradient(180deg, var(--paper), var(--paper2));
       overflow:hidden;
     }
 
@@ -38,88 +47,84 @@
     }
 
     .panel{
-      width:min(720px, 96vw);
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:22px;
+      width:min(760px, 96vw);
+      background: var(--panel);
+      border:1px solid var(--panelBorder);
+      border-radius:24px;
       padding:18px;
+      box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
-      box-shadow: 0 18px 60px rgba(0,0,0,.45);
       display:grid;
       gap:14px;
+      position:relative;
+      overflow:hidden;
     }
 
-    .top{
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-      justify-content:space-between;
-      flex-wrap:wrap;
+    /* subtle “aristocratic” ornament */
+    .panel::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(600px 260px at 10% 0%, rgba(197,160,89,.16), transparent 60%),
+        radial-gradient(600px 260px at 95% 100%, rgba(216,90,122,.10), transparent 60%);
+      pointer-events:none;
     }
 
+    .top{ position:relative; display:flex; gap:12px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; }
     h1{
       margin:0;
-      font-size:18px;
+      font-family: "Playfair Display", serif;
+      font-size:20px;
       letter-spacing:.2px;
-      font-weight:750;
+      font-weight:700;
     }
     .sub{
-      margin:4px 0 0;
+      margin:6px 0 0;
       color:var(--muted);
       font-size:13px;
-      line-height:1.35;
+      line-height:1.4;
+      max-width: 55ch;
     }
 
-    .controls{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-
+    .controls{ position:relative; display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
     .btn{
       appearance:none;
-      border:1px solid rgba(255,255,255,.16);
-      background:rgba(255,255,255,.06);
-      color:var(--text);
+      border:1px solid rgba(27,27,31,.16);
+      background: rgba(255,255,255,.55);
+      color:var(--ink);
       padding:10px 12px;
       border-radius:14px;
-      font-weight:650;
+      font-weight:700;
       font-size:13px;
       cursor:pointer;
       transition: transform .08s ease, background .15s ease, border-color .15s ease;
       user-select:none;
     }
-    .btn:hover{ background:rgba(255,255,255,.09); border-color:rgba(255,255,255,.22); }
+    .btn:hover{ background: rgba(255,255,255,.72); border-color: rgba(27,27,31,.22); }
     .btn:active{ transform: translateY(1px) scale(.99); }
     .btn.primary{
-      border-color: rgba(255,59,122,.45);
-      background: rgba(255,59,122,.14);
-    }
-
-    .row{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:14px;
+      border-color: rgba(197,160,89,.55);
+      background: linear-gradient(180deg, rgba(227,194,122,.45), rgba(197,160,89,.22));
     }
 
     .stage{
       position:relative;
       width:100%;
       aspect-ratio: 16 / 9;
-      min-height: 340px;
-      border-radius:20px;
-      border:1px solid rgba(255,255,255,.10);
+      min-height: 360px;
+      border-radius:22px;
+      border:1px solid rgba(27,27,31,.12);
       background:
-        radial-gradient(900px 500px at 50% 30%, rgba(255,59,122,.16), transparent 60%),
-        radial-gradient(700px 450px at 30% 80%, rgba(255,122,169,.10), transparent 60%),
-        rgba(10,14,22,.72);
+        radial-gradient(950px 520px at 50% 30%, rgba(216,90,122,.10), transparent 65%),
+        radial-gradient(850px 520px at 40% 85%, rgba(197,160,89,.12), transparent 60%),
+        rgba(255,255,255,.45);
       overflow:hidden;
       display:grid;
       place-items:center;
       padding:18px;
       touch-action: manipulation;
+      position:relative;
     }
 
     .prompt{
@@ -133,16 +138,16 @@
     }
 
     .pill{
-      pointer-events:none;
       display:inline-flex;
       gap:8px;
       align-items:center;
       padding:8px 10px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
+      border:1px solid rgba(27,27,31,.12);
+      background: rgba(255,255,255,.55);
       color: var(--muted);
       font-size:12px;
+      pointer-events:none;
     }
 
     .stats{
@@ -151,20 +156,18 @@
       flex-wrap:wrap;
       justify-content:flex-end;
     }
-
     .stat{
-      pointer-events:none;
       padding:8px 10px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
+      border:1px solid rgba(27,27,31,.12);
+      background: rgba(255,255,255,.55);
       font-size:12px;
       color: var(--muted);
       white-space:nowrap;
+      pointer-events:none;
     }
-    .stat b{ color: var(--text); }
+    .stat b{ color: var(--ink); }
 
-    /* HEART */
     .heartArea{
       position:relative;
       display:grid;
@@ -176,34 +179,31 @@
     }
 
     .heart{
-      font-size: clamp(84px, 14vw, 160px);
+      font-size: clamp(92px, 14vw, 170px);
       transform: translateZ(0) scale(1);
-      filter: drop-shadow(0 18px 35px rgba(255,59,122,.15));
+      filter: drop-shadow(0 18px 35px rgba(216,90,122,.16));
       transition: transform 120ms ease;
       will-change: transform, filter;
     }
 
     .ring{
       position:absolute;
-      width: 80%;
-      height: 80%;
+      width: 82%;
+      height: 82%;
       border-radius: 999px;
-      border: 2px solid rgba(255,59,122,.0);
-      transform: scale(.6);
+      border: 2px solid rgba(216,90,122,.0);
+      transform: scale(.65);
       opacity: 0;
       pointer-events:none;
     }
 
     .glowOn .heart{
       filter:
-        drop-shadow(0 0 18px rgba(255,59,122,.65))
-        drop-shadow(0 0 44px rgba(255,122,169,.35));
-      animation: pulse 720ms ease-in-out both;
+        drop-shadow(0 0 18px rgba(216,90,122,.55))
+        drop-shadow(0 0 44px rgba(197,160,89,.28));
+      animation: pulse 740ms ease-in-out both;
     }
-
-    .glowOn .ring{
-      animation: ring 720ms ease-out both;
-    }
+    .glowOn .ring{ animation: ring 740ms ease-out both; }
 
     @keyframes pulse{
       0%{ transform: scale(1); }
@@ -211,9 +211,9 @@
       100%{ transform: scale(1.02); }
     }
     @keyframes ring{
-      0%{ opacity:0; transform: scale(.6); border-color: rgba(255,59,122,.0); }
-      30%{ opacity:1; border-color: rgba(255,59,122,.55); }
-      100%{ opacity:0; transform: scale(1.2); border-color: rgba(255,59,122,.0); }
+      0%{ opacity:0; transform: scale(.65); border-color: rgba(216,90,122,.0); }
+      30%{ opacity:1; border-color: rgba(216,90,122,.42); }
+      100%{ opacity:0; transform: scale(1.22); border-color: rgba(216,90,122,.0); }
     }
 
     .tapHint{
@@ -232,12 +232,12 @@
     .bigTap{
       pointer-events:auto;
       border:none;
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.12);
-      color:var(--text);
+      background: rgba(255,255,255,.62);
+      border:1px solid rgba(27,27,31,.14);
+      color:var(--ink);
       padding:12px 14px;
       border-radius:16px;
-      font-weight:780;
+      font-weight:800;
       cursor:pointer;
       display:inline-flex;
       gap:10px;
@@ -245,7 +245,7 @@
       transition: transform .08s ease, background .15s ease, border-color .15s ease;
       user-select:none;
     }
-    .bigTap:hover{ background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.20); }
+    .bigTap:hover{ background: rgba(255,255,255,.78); border-color: rgba(27,27,31,.20); }
     .bigTap:active{ transform: translateY(1px) scale(.99); }
 
     .feedback{
@@ -254,156 +254,109 @@
       display:grid;
       place-items:center;
       pointer-events:none;
-      font-weight:850;
+      font-weight:900;
       letter-spacing:.3px;
-      text-shadow: 0 10px 40px rgba(0,0,0,.55);
       opacity:0;
       transform: translateY(8px);
       transition: opacity .18s ease, transform .18s ease;
+      text-align:center;
+      padding:0 14px;
     }
-    .feedback.show{
-      opacity:1;
-      transform: translateY(0);
-    }
+    .feedback.show{ opacity:1; transform: translateY(0); }
     .feedback small{
       display:block;
       font-weight:650;
       color: var(--muted);
       margin-top:6px;
       letter-spacing:0;
-      text-align:center;
     }
 
     .meter{
       height:10px;
       border-radius:999px;
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.10);
+      background: rgba(27,27,31,.08);
+      border:1px solid rgba(27,27,31,.10);
       overflow:hidden;
     }
     .meter > i{
       display:block;
       height:100%;
       width:0%;
-      background: linear-gradient(90deg, rgba(255,92,92,.95), rgba(255,204,102,.95), rgba(53,208,127,.95));
+      background: linear-gradient(90deg, rgba(192,59,59,.86), rgba(184,135,47,.90), rgba(47,157,98,.90));
       transition: width 180ms ease;
     }
 
-    .bottom{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:10px;
-    }
-
-    .mini{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
-    }
-
-    .codeBox{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size: 12px;
-      color: rgba(234,240,255,.86);
-      background: rgba(0,0,0,.25);
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:14px;
-      padding:10px 12px;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
-    .codeBox span{ color: var(--muted); }
-    .codeBox input{
-      width: 260px;
-      max-width: 78vw;
-      border:none;
-      outline:none;
-      background:transparent;
-      color: var(--text);
-      font: inherit;
-    }
-
     @media (max-width:520px){
-      .stage{ min-height: 420px; aspect-ratio: 10/16; }
+      .stage{ min-height: 440px; aspect-ratio: 10/16; }
       .tapHint{ flex-direction:column; align-items:stretch; }
       .bigTap{ justify-content:center; width:100%; }
     }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <div class="panel">
       <div class="top">
         <div>
           <h1>Tap-Together Challenge</h1>
-          <p class="sub">“When you see the heart glow, TAP ❤️” — the closer your tap is to the glow peak, the bigger the heart reaction.</p>
+          <p class="sub" id="subtitle">
+            When the heart glows, everyone taps together. The closer your timing, the more dazzling the heart.
+            A tiny ritual, a lovely little icebreaker.
+          </p>
         </div>
         <div class="controls">
-          <button class="btn" id="practiceBtn" title="Random glow timings on this device">Practice (Solo)</button>
-          <button class="btn primary" id="hostBtn" title="Generate a shared link so everyone’s glow timings match">Room Mode (Host)</button>
-          <button class="btn" id="joinBtn" title="Paste a Room Mode link to join">Join Link</button>
-          <button class="btn" id="resetBtn" title="Reset score & streak">Reset</button>
+          <button class="btn" id="practiceBtn" title="Solo random glow timings">Practice</button>
+          <button class="btn primary" id="roomBtn" title="Join room based on the page URL">Room Mode</button>
+          <button class="btn" id="resetBtn" title="Reset score">Reset</button>
         </div>
       </div>
 
-      <div class="row">
-        <div class="stage" id="stage" aria-label="Tap area">
-          <div class="prompt">
-            <div class="pill" id="modePill">Mode: <b style="color:var(--text)">Practice</b></div>
-            <div class="stats">
-              <div class="stat">Streak: <b id="streak">0</b></div>
-              <div class="stat">Best: <b id="best">0</b>%</div>
-              <div class="stat">Last: <b id="last">—</b></div>
-            </div>
-          </div>
-
-          <div class="heartArea" id="heartArea">
-            <div class="ring"></div>
-            <div class="heart" id="heart" role="img" aria-label="Heart">❤️</div>
-          </div>
-
-          <div class="feedback" id="feedback">
-            <div id="feedbackTitle">READY</div>
-            <small id="feedbackSub">Wait for the glow…</small>
-          </div>
-
-          <div class="tapHint">
-            <div style="flex:1; min-width:220px">
-              <div style="display:flex; justify-content:space-between; gap:10px; margin-bottom:8px;">
-                <span style="color:var(--muted); font-size:12px;">Sync meter</span>
-                <span style="color:var(--muted); font-size:12px;" id="windowLabel">±350ms window</span>
-              </div>
-              <div class="meter"><i id="meterFill"></i></div>
-            </div>
-            <button class="bigTap" id="tapBtn">TAP ❤️</button>
+      <div class="stage" id="stage">
+        <div class="prompt">
+          <div class="pill" id="modePill">Mode: <b style="color:var(--ink)">Practice</b></div>
+          <div class="stats">
+            <div class="stat">Streak: <b id="streak">0</b></div>
+            <div class="stat">Best: <b id="best">0</b>%</div>
+            <div class="stat">Last: <b id="last">—</b></div>
           </div>
         </div>
 
-        <div class="bottom">
-          <div class="mini">
-            <div class="codeBox" id="roomBox" style="display:none;">
-              <span>Room link:</span>
-              <input id="roomLink" readonly />
-              <button class="btn" id="copyLinkBtn">Copy</button>
-            </div>
-            <div class="pill" id="nextPill">Next glow in: <b style="color:var(--text)" id="nextIn">—</b></div>
-          </div>
+        <div class="heartArea" id="heartArea">
+          <div class="ring"></div>
+          <div class="heart" id="heart" role="img" aria-label="Heart">❤️</div>
         </div>
+
+        <div class="feedback" id="feedback">
+          <div id="feedbackTitle">READY</div>
+          <small id="feedbackSub">Wait for the glow…</small>
+        </div>
+
+        <div class="tapHint">
+          <div style="flex:1; min-width:220px">
+            <div style="display:flex; justify-content:space-between; gap:10px; margin-bottom:8px;">
+              <span style="color:var(--muted); font-size:12px;">Harmony meter</span>
+              <span style="color:var(--muted); font-size:12px;" id="windowLabel">±350ms window</span>
+            </div>
+            <div class="meter"><i id="meterFill"></i></div>
+          </div>
+          <button class="bigTap" id="tapBtn">Tap ❤️</button>
+        </div>
+      </div>
+
+      <div class="pill" style="justify-content:space-between;">
+        <span id="roomLabel">Room: <b style="color:var(--ink)" id="roomName">—</b></span>
+        <span>Next glow in: <b style="color:var(--ink)" id="nextIn">—</b></span>
       </div>
     </div>
   </div>
 
 <script>
 (() => {
-  // ---------- Helpers ----------
   const $ = (id) => document.getElementById(id);
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
-  // Deterministic RNG (mulberry32)
+  // --- Deterministic RNG ---
   function mulberry32(seed) {
     let t = seed >>> 0;
     return function() {
@@ -414,8 +367,18 @@
     };
   }
 
+  // Simple string -> 32-bit hash (stable)
+  function hash32(str){
+    let h = 2166136261 >>> 0;
+    for (let i=0;i<str.length;i++){
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return h >>> 0;
+  }
+
   function fmtMs(ms){
-    const sign = ms < 0 ? "-" : "";
+    const sign = ms < 0 ? "−" : "+";
     const v = Math.abs(Math.round(ms));
     return `${sign}${v}ms`;
   }
@@ -424,93 +387,86 @@
     if (navigator.vibrate) navigator.vibrate(pattern);
   }
 
-  // ---------- Elements ----------
+  // --- Elements ---
   const stage = $("stage");
-  const heartArea = $("heartArea");
   const heart = $("heart");
+  const meterFill = $("meterFill");
   const feedback = $("feedback");
   const feedbackTitle = $("feedbackTitle");
   const feedbackSub = $("feedbackSub");
-  const meterFill = $("meterFill");
   const streakEl = $("streak");
   const bestEl = $("best");
   const lastEl = $("last");
   const nextInEl = $("nextIn");
   const windowLabel = $("windowLabel");
+  const modePill = $("modePill");
+  const roomNameEl = $("roomName");
+  const subtitle = $("subtitle");
 
   const practiceBtn = $("practiceBtn");
-  const hostBtn = $("hostBtn");
-  const joinBtn = $("joinBtn");
+  const roomBtn = $("roomBtn");
   const resetBtn = $("resetBtn");
   const tapBtn = $("tapBtn");
 
-  const modePill = $("modePill");
-  const roomBox = $("roomBox");
-  const roomLink = $("roomLink");
-  const copyLinkBtn = $("copyLinkBtn");
-  const nextPill = $("nextPill");
-
-  // ---------- Game Settings ----------
-  // Tap window around the glow "peak" (center). Smaller = harder.
+  // --- Settings ---
   let WINDOW_MS = 350;
   windowLabel.textContent = `±${WINDOW_MS}ms window`;
 
-  // Glow scheduling:
-  // Practice: random between 1.6s–3.2s
   const PRACTICE_MIN = 1600;
   const PRACTICE_MAX = 3200;
 
-  // Room mode: deterministic schedule. Everyone must use same seed + start time.
-  // We'll create "beats" every 2.6s with small jitter so it feels alive.
   const ROOM_BEAT_MS = 2600;
-  const ROOM_JITTER_MS = 650; // deterministic jitter
+  const ROOM_JITTER_MS = 650;
 
-  // ---------- State ----------
-  let mode = "practice"; // "practice" | "room"
-  let rng = Math.random;
+  // --- Room detection by URL ---
+  // If URL has ?room=xxx => join that room (no extra “room link” UI)
+  // Otherwise, practice mode by default.
+  const params = new URLSearchParams(location.search);
+  const roomId = (params.get("room") || "").trim(); // e.g. "isa"
+  const hasRoom = !!roomId;
 
-  let round = 0;
-  let nextGlowAt = 0;       // performance.now() timestamp when glow PEAK happens
-  let glowStartAt = 0;      // start time for CSS class (before peak)
+  // Seed from roomId + pathname + hostname (so different pages can host different rooms)
+  const roomKey = hasRoom
+    ? `${location.hostname}${location.pathname}::${roomId}`
+    : "";
+
+  const roomSeed = hasRoom ? hash32(roomKey) : null;
+
+  // Start epoch: rounded to nearest 10 seconds so late-joiners still sync
+  // (Everyone computes the same base from their local time, so we also quantize by minute boundary)
+  // Better: define a constant start anchor derived from roomSeed (so truly stable).
+  // We'll set an anchor date at Jan 1 2026 00:00 UTC plus roomSeed offset.
+  const ANCHOR_UTC = Date.UTC(2026,0,1,0,0,0,0);
+  const roomStartEpoch = hasRoom ? (ANCHOR_UTC + (roomSeed % (7*24*60*60*1000))) : null;
+
+  let mode = hasRoom ? "room" : "practice";
+  let rng = hasRoom ? mulberry32(roomSeed) : Math.random;
+
+  // --- State ---
+  let nextGlowAt = 0;
+  let glowStartAt = 0;
   let acceptingTap = false;
   let lastTapAt = 0;
 
   let streak = 0;
   let best = 0;
 
-  // Room params (when used)
-  let roomSeed = null;
-  let roomStartEpoch = null; // Date.now() basis across devices
-  let roomStartPerf = null;  // performance.now at page load for mapping
-  let roomLinkUrl = null;
-
-  // ---------- URL Parsing for Room Mode ----------
-  const params = new URLSearchParams(location.search);
-  if (params.has("seed") && params.has("start")) {
-    const s = Number(params.get("seed"));
-    const st = Number(params.get("start"));
-    if (Number.isFinite(s) && Number.isFinite(st)) {
-      roomSeed = s >>> 0;
-      roomStartEpoch = st;
-      mode = "room";
-    }
-  }
-
   function setMode(nextMode){
     mode = nextMode;
 
     const label = mode === "room" ? "Room Mode" : "Practice";
-    modePill.innerHTML = `Mode: <b style="color:var(--text)">${label}</b>`;
+    modePill.innerHTML = `Mode: <b style="color:var(--ink)">${label}</b>`;
 
     if (mode === "room") {
-      // Build deterministic RNG
-      if (roomSeed == null) roomSeed = (crypto.getRandomValues(new Uint32Array(1))[0]) >>> 0;
-      rng = mulberry32(roomSeed);
-
-      roomBox.style.display = (roomLinkUrl ? "flex" : "none");
+      subtitle.textContent =
+        "When the heart glows, everyone taps together. Closer timing makes a more dazzling heart — a gentle little icebreaker.";
+      roomNameEl.textContent = hasRoom ? roomId : "—";
+      rng = hasRoom ? mulberry32(roomSeed) : mulberry32(123456789);
     } else {
+      subtitle.textContent =
+        "Practice your timing. When it glows, tap — and feel the rhythm before you try it with friends.";
+      roomNameEl.textContent = "—";
       rng = Math.random;
-      roomBox.style.display = "none";
     }
 
     resetRoundTimers();
@@ -518,8 +474,7 @@
   }
 
   function resetScore(){
-    streak = 0;
-    best = 0;
+    streak = 0; best = 0;
     streakEl.textContent = "0";
     bestEl.textContent = "0";
     lastEl.textContent = "—";
@@ -528,93 +483,70 @@
   }
 
   function resetRoundTimers(){
-    round = 0;
     acceptingTap = false;
     nextGlowAt = 0;
     glowStartAt = 0;
     stage.classList.remove("glowOn");
   }
 
-  // ---------- Glow Scheduling ----------
   function scheduleNextGlow(){
-    round++;
-
     const nowPerf = performance.now();
 
     if (mode === "practice") {
       const delay = Math.floor(PRACTICE_MIN + (PRACTICE_MAX - PRACTICE_MIN) * Math.random());
-      const peak = nowPerf + delay;
-      planGlow(peak);
-
+      planGlow(nowPerf + delay);
     } else {
-      // ROOM MODE
-      // Everyone uses Date.now() to align around the shared "start" epoch.
-      // We'll compute the current beat index based on real time since roomStartEpoch.
-      // Then schedule the NEXT beat for this device.
-      if (roomStartPerf == null) roomStartPerf = performance.now();
+      // ROOM MODE — deterministic schedule based on the roomStartEpoch anchor.
       const nowEpoch = Date.now();
 
-      // If we joined early, wait until start
       const tSinceStart = nowEpoch - roomStartEpoch;
-
       const beatIndex = tSinceStart < 0 ? 0 : Math.floor(tSinceStart / ROOM_BEAT_MS) + 1;
 
-      // Deterministic jitter per beat
+      // deterministic jitter per beat (seed + beatIndex)
       const localRng = mulberry32((roomSeed ^ (beatIndex * 2654435761)) >>> 0);
-      const jitter = (localRng() * 2 - 1) * ROOM_JITTER_MS; // [-jitter, +jitter]
+      const jitter = (localRng() * 2 - 1) * ROOM_JITTER_MS;
 
       const nextBeatEpoch = roomStartEpoch + beatIndex * ROOM_BEAT_MS + jitter;
 
-      // Convert epoch target -> perf timestamp target (best effort)
+      // map epoch -> perf using offset
       const epochToPerfOffset = performance.now() - Date.now();
-      const targetPerfPeak = nextBeatEpoch + epochToPerfOffset;
-
-      planGlow(targetPerfPeak);
+      planGlow(nextBeatEpoch + epochToPerfOffset);
     }
   }
 
   function planGlow(peakPerf){
-    // Start the glow effect slightly before peak so it visually ramps up.
-    // We'll start 220ms before peak.
     glowStartAt = peakPerf - 220;
     nextGlowAt = peakPerf;
-
-    // Update countdown pill
     tickCountdown();
 
-    // Set timers
     const now = performance.now();
     const startDelay = Math.max(0, glowStartAt - now);
-    const peakDelay = Math.max(0, nextGlowAt - now);
+    const peakDelay  = Math.max(0, nextGlowAt - now);
 
     setTimeout(() => {
       stage.classList.add("glowOn");
       acceptingTap = true;
-      // If someone taps slightly early, still score within window.
     }, startDelay);
 
     setTimeout(() => {
-      // Peak moment: nudge feedback to "TAP!"
-      showFeedback("TAP!", "Hit it NOW ❤️", "accent");
+      showFeedback("TAP!", "Together, darling. Right on the glow ❤️", "accent");
       haptic([12]);
-      // Stop glow after animation completes
+
       setTimeout(() => stage.classList.remove("glowOn"), 760);
 
-      // Close window after +WINDOW_MS
       setTimeout(() => {
         if (acceptingTap) {
-          // Miss
           acceptingTap = false;
           streak = 0;
           streakEl.textContent = String(streak);
           lastEl.textContent = "Miss";
           meterFill.style.width = "0%";
-          showFeedback("MISS", "Wait for the next glow.", "bad");
-          haptic([30, 40, 30]);
+          showFeedback("OOPS", "No worries — you’ll catch the next one.", "warn");
+          haptic([25, 35, 25]);
         }
-        // Schedule next round
         scheduleNextGlow();
       }, WINDOW_MS + 40);
+
     }, peakDelay);
   }
 
@@ -625,52 +557,6 @@
     if (nextGlowAt) requestAnimationFrame(tickCountdown);
   }
 
-  // ---------- Scoring ----------
-  function scoreTap(tapPerf){
-    const delta = tapPerf - nextGlowAt;         // negative = early
-    const absDelta = Math.abs(delta);
-
-    // Sync percent: 100 at perfect, 0 at window edge
-    const raw = 1 - (absDelta / WINDOW_MS);
-    const sync = clamp(raw, 0, 1);
-    const pct = Math.round(sync * 100);
-
-    // Visual reaction size
-    // Perfect -> bigger scale, plus a little punch
-    const scale = 1 + 0.35 * sync; // up to 1.35
-    heart.style.transform = `scale(${scale})`;
-    setTimeout(() => heart.style.transform = "scale(1.02)", 120);
-
-    // Meter
-    meterFill.style.width = `${pct}%`;
-
-    // Streak & best
-    if (pct >= 60) streak++;
-    else streak = 0;
-    streakEl.textContent = String(streak);
-
-    if (pct > best) best = pct;
-    bestEl.textContent = String(best);
-
-    // Copy for feedback
-    let title = "OK";
-    let sub = `Δ ${fmtMs(delta)} • ${pct}% sync`;
-    let tone = "warn";
-    let vibe = [16];
-
-    if (pct >= 95) { title = "PERFECT"; tone="good"; vibe=[18, 25, 18]; }
-    else if (pct >= 85) { title = "GREAT"; tone="good"; vibe=[18, 18]; }
-    else if (pct >= 70) { title = "NICE"; tone="accent"; vibe=[14, 18]; }
-    else if (pct >= 50) { title = "CLOSE"; tone="warn"; vibe=[12]; }
-    else { title = "OFF"; tone="bad"; vibe=[28]; }
-
-    lastEl.textContent = `${pct}%`;
-    showFeedback(title, sub, tone);
-    haptic(vibe);
-
-    return { pct, delta };
-  }
-
   function showFeedback(title, sub, tone){
     feedbackTitle.textContent = title;
     feedbackSub.textContent = sub;
@@ -679,46 +565,71 @@
       tone === "good" ? "var(--good)" :
       tone === "warn" ? "var(--warn)" :
       tone === "bad" ? "var(--bad)" :
-      tone === "accent" ? "var(--accent2)" :
-      "var(--text)";
+      tone === "accent" ? "var(--rose)" :
+      "var(--ink)";
 
     feedback.classList.add("show");
     clearTimeout(showFeedback._t);
     showFeedback._t = setTimeout(() => feedback.classList.remove("show"), 900);
   }
 
-  // ---------- Input ----------
+  function scoreTap(tapPerf){
+    const delta = tapPerf - nextGlowAt;
+    const absDelta = Math.abs(delta);
+
+    const sync = clamp(1 - (absDelta / WINDOW_MS), 0, 1);
+    const pct = Math.round(sync * 100);
+
+    const scale = 1 + 0.38 * sync;
+    heart.style.transform = `scale(${scale})`;
+    setTimeout(() => heart.style.transform = "scale(1.02)", 120);
+
+    meterFill.style.width = `${pct}%`;
+
+    if (pct >= 60) streak++;
+    else streak = 0;
+    streakEl.textContent = String(streak);
+
+    if (pct > best) best = pct;
+    bestEl.textContent = String(best);
+    lastEl.textContent = `${pct}%`;
+
+    let title = "CLOSE";
+    let sub = `Harmony: ${pct}% • Δ ${fmtMs(delta)}`;
+    let tone = "warn";
+    let vibe = [14];
+
+    if (pct >= 95) { title = "DIVINE"; tone="good"; vibe=[18,25,18]; }
+    else if (pct >= 85) { title = "GORGEOUS"; tone="good"; vibe=[18,18]; }
+    else if (pct >= 70) { title = "LOVELY"; tone="accent"; vibe=[14,18]; }
+    else if (pct >= 50) { title = "ALMOST"; tone="warn"; vibe=[12]; }
+    else { title = "CHEEKY"; tone="bad"; vibe=[22]; }
+
+    showFeedback(title, sub, tone);
+    haptic(vibe);
+  }
+
   function onTap(){
     const t = performance.now();
-
-    // Prevent double taps within 120ms
     if (t - lastTapAt < 120) return;
     lastTapAt = t;
 
-    // Only score if within the window (early or late)
-    const absDelta = Math.abs(t - nextGlowAt);
     if (!nextGlowAt) return;
 
+    const absDelta = Math.abs(t - nextGlowAt);
     if (absDelta <= WINDOW_MS) {
       acceptingTap = false;
       scoreTap(t);
-      // Schedule next (slight delay so reaction feels satisfying)
       setTimeout(() => scheduleNextGlow(), 260);
     } else {
-      // Tap outside window: tiny nudge feedback, but don’t kill the round
-      showFeedback("WAIT", "Hold… glow hasn’t peaked yet.", "warn");
+      showFeedback("STEADY", "Not yet — wait for the glow’s peak.", "warn");
       haptic([8]);
     }
   }
 
-  // Tap anywhere on stage
-  stage.addEventListener("pointerdown", (e) => {
-    // ignore clicks on controls area? (we want tap anywhere)
-    onTap();
-  }, {passive:true});
+  stage.addEventListener("pointerdown", () => onTap(), {passive:true});
   tapBtn.addEventListener("click", onTap);
 
-  // Keyboard (for desktop testing)
   window.addEventListener("keydown", (e) => {
     if (e.code === "Space" || e.key.toLowerCase() === "t") {
       e.preventDefault();
@@ -726,78 +637,28 @@
     }
   });
 
-  // ---------- Room Mode: Host / Join ----------
-  function makeRoomLink(){
-    const seed = (crypto.getRandomValues(new Uint32Array(1))[0]) >>> 0;
-    // Start a few seconds in the future so everyone has time to open it
-    const start = Date.now() + 6500;
-
-    const url = new URL(location.href);
-    url.searchParams.set("seed", String(seed));
-    url.searchParams.set("start", String(start));
-
-    roomSeed = seed;
-    roomStartEpoch = start;
-    roomLinkUrl = url.toString();
-
-    roomLink.value = roomLinkUrl;
-    roomBox.style.display = "flex";
-
-    // Switch to room mode
-    setMode("room");
-
-    // Helpful feedback
-    const startIn = Math.max(0, start - Date.now());
-    showFeedback("ROOM READY", `Starts in ${Math.ceil(startIn/100)/10}s • Share link now`, "accent");
-  }
-
-  function joinRoomLink(){
-    const link = prompt("Paste the Room Mode link here:");
-    if (!link) return;
-    try{
-      const url = new URL(link);
-      const seed = Number(url.searchParams.get("seed"));
-      const start = Number(url.searchParams.get("start"));
-      if (!Number.isFinite(seed) || !Number.isFinite(start)) throw new Error("Missing seed/start");
-      // Navigate to it so params apply cleanly
-      location.href = url.toString();
-    }catch(err){
-      alert("That link doesn’t look right. Make sure it includes ?seed=...&start=...");
-    }
-  }
-
-  async function copyRoomLink(){
-    if (!roomLink.value) return;
-    try{
-      await navigator.clipboard.writeText(roomLink.value);
-      showFeedback("COPIED", "Send it to everyone in the room.", "good");
-    }catch{
-      // Fallback
-      roomLink.select();
-      document.execCommand("copy");
-      showFeedback("COPIED", "Send it to everyone in the room.", "good");
-    }
-  }
-
-  // Buttons
   practiceBtn.addEventListener("click", () => {
-    // Clear room params
-    roomSeed = null;
-    roomStartEpoch = null;
-    roomStartPerf = null;
-    roomLinkUrl = null;
+    // Remove room param (back to practice)
     const url = new URL(location.href);
-    url.searchParams.delete("seed");
-    url.searchParams.delete("start");
+    url.searchParams.delete("room");
     history.replaceState({}, "", url.toString());
-
     setMode("practice");
-    showFeedback("PRACTICE", "Random glow timings (solo).", "accent");
+    showFeedback("PRACTICE", "Warm up your timing — then invite the room.", "accent");
   });
 
-  hostBtn.addEventListener("click", makeRoomLink);
-  joinBtn.addEventListener("click", joinRoomLink);
-  copyLinkBtn.addEventListener("click", copyRoomLink);
+  roomBtn.addEventListener("click", () => {
+    // If no room param, gently prompt once (still “just the URL”)
+    if (!hasRoom) {
+      const id = prompt("Pick a room name (e.g., isa, cf2026, hello):", "isa");
+      if (!id) return;
+      const url = new URL(location.href);
+      url.searchParams.set("room", id.trim());
+      location.href = url.toString();
+      return;
+    }
+    setMode("room");
+    showFeedback("ROOM MODE", "Everyone on this link will sync ❤️", "accent");
+  });
 
   resetBtn.addEventListener("click", () => {
     resetScore();
@@ -805,31 +666,7 @@
     scheduleNextGlow();
   });
 
-  // ---------- Init ----------
-  resetScore();
-
-  if (mode === "room") {
-    // We are joining from URL
-    roomSeed = (Number(params.get("seed")) >>> 0);
-    roomStartEpoch = Number(params.get("start"));
-    roomLinkUrl = location.href;
-
-    roomLink.value = roomLinkUrl;
-    roomBox.style.display = "flex";
-    setMode("room");
-
-    const startIn = roomStartEpoch - Date.now();
-    if (startIn > 0) {
-      showFeedback("JOINED ROOM", `Starts in ${Math.ceil(startIn/100)/10}s`, "accent");
-    } else {
-      showFeedback("JOINED ROOM", "Tap on the glow peak ❤️", "accent");
-    }
-  } else {
-    setMode("practice");
-    showFeedback("READY", "Wait for the glow…", null);
-  }
-
-  // Safety: prevent iOS double-tap zoom on button-ish areas
+  // iOS double-tap zoom guard
   let lastTouchEnd = 0;
   document.addEventListener("touchend", (e) => {
     const now = Date.now();
@@ -837,6 +674,15 @@
     lastTouchEnd = now;
   }, { passive:false });
 
+  // Init
+  resetScore();
+  if (hasRoom) {
+    roomNameEl.textContent = roomId;
+    setMode("room");
+    showFeedback("WELCOME", "Open this same link on everyone’s phone.", "accent");
+  } else {
+    setMode("practice");
+  }
 })();
 </script>
 </body>
