@@ -6,15 +6,21 @@
   <title>Heart to Heart | ISA Chulalongkorn</title>
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Parisienne&display=swap');
+    /* Softer + elegant: remove sharp all-caps feel, lean romantic garden */
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Parisienne&display=swap');
 
     :root{
       --ink:#2b2a33;
       --blush:#f3d9df;
       --sky:#d9e7f5;
       --sage:#dfece5;
+
+      --garden:#2b4a3d;
+      --leaf:#3e6b55;
+
       --gold:#c8a35a;
       --gold2:#f0d9a6;
+
       --shadow: 0 24px 60px rgba(30, 26, 40, .22);
       --hairline: rgba(200,163,90,.55);
     }
@@ -33,56 +39,160 @@
         radial-gradient(1000px 700px at 80% 20%, rgba(243,217,223,.75) 0%, rgba(243,217,223,0) 55%),
         radial-gradient(900px 650px at 50% 90%, rgba(223,236,229,.75) 0%, rgba(223,236,229,0) 55%),
         linear-gradient(180deg, #f9f5ee 0%, #f2ebe1 100%);
+      overflow:hidden;
+    }
+
+    /* Secret-garden atmosphere: soft vines + sparkles (no images) */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:-20%;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 14% 20%, rgba(62,107,85,.20) 0 2px, transparent 3px) 0 0/60px 60px,
+        radial-gradient(circle at 86% 24%, rgba(62,107,85,.12) 0 2px, transparent 3px) 0 0/70px 70px,
+        radial-gradient(circle at 30% 78%, rgba(62,107,85,.14) 0 2px, transparent 3px) 0 0/78px 78px,
+        radial-gradient(circle at 74% 84%, rgba(200,163,90,.12) 0 2px, transparent 3px) 0 0/66px 66px,
+        repeating-linear-gradient(
+          115deg,
+          rgba(255,255,255,.09) 0px,
+          rgba(255,255,255,.09) 12px,
+          rgba(255,255,255,0) 24px,
+          rgba(255,255,255,0) 48px
+        );
+      opacity:.55;
+      transform:rotate(-6deg);
+      filter: blur(.7px);
+    }
+
+    body::after{
+      /* “vines” around edges */
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(260px 180px at 0% 0%, rgba(62,107,85,.18), transparent 70%),
+        radial-gradient(260px 180px at 100% 0%, rgba(62,107,85,.14), transparent 70%),
+        radial-gradient(260px 180px at 0% 100%, rgba(62,107,85,.14), transparent 70%),
+        radial-gradient(260px 180px at 100% 100%, rgba(62,107,85,.18), transparent 70%);
+      opacity:.8;
+      mix-blend-mode:multiply;
     }
 
     .manuscript{
       width:min(560px, 92vw);
-      padding:42px 36px;
-      background:rgba(255,255,255,.85);
-      border-radius:26px;
+      padding:44px 36px 40px;
+      background:rgba(255,255,255,.86);
+      border-radius:28px;
       box-shadow:var(--shadow);
       position:relative;
       text-align:center;
+      overflow:hidden;
+      backdrop-filter: blur(6px);
+    }
+
+    /* softer paper + botanical hint */
+    .manuscript::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(420px 240px at 20% 20%, rgba(62,107,85,.10), transparent 60%),
+        radial-gradient(380px 220px at 80% 30%, rgba(200,163,90,.10), transparent 60%),
+        radial-gradient(520px 260px at 50% 110%, rgba(62,107,85,.08), transparent 60%),
+        repeating-linear-gradient(0deg, rgba(43,42,51,.02) 0px, rgba(43,42,51,.02) 1px, transparent 2px, transparent 7px);
+      opacity:.65;
+      mix-blend-mode:multiply;
     }
 
     .frame{
       position:absolute;
       inset:14px;
-      border-radius:20px;
+      border-radius:22px;
       border:1px solid var(--hairline);
       pointer-events:none;
     }
+    .frame::after{
+      content:"";
+      position:absolute;
+      inset:10px;
+      border-radius:18px;
+      border:1px solid rgba(62,107,85,.14);
+    }
+
+    /* little “garden corners” instead of sharp filigree */
+    .corner{
+      position:absolute;
+      width:64px; height:64px;
+      border-radius:18px;
+      border:1px solid rgba(200,163,90,.28);
+      background:
+        radial-gradient(circle at 30% 30%, rgba(62,107,85,.18) 0 2px, transparent 3px),
+        radial-gradient(circle at 70% 70%, rgba(200,163,90,.18) 0 2px, transparent 3px),
+        linear-gradient(135deg, rgba(200,163,90,.12), transparent 60%);
+      pointer-events:none;
+      opacity:.9;
+    }
+    .corner::before{
+      content:"❦";
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      font-size:18px;
+      color: rgba(62,107,85,.55);
+      text-shadow: 0 1px 0 rgba(255,255,255,.5);
+    }
+    .c1{ top:10px; left:10px; }
+    .c2{ top:10px; right:10px; transform: scaleX(-1); }
+    .c3{ bottom:10px; left:10px; transform: scaleY(-1); }
+    .c4{ bottom:10px; right:10px; transform: scale(-1); }
 
     .welcome{
       display:flex;
       align-items:center;
       justify-content:center;
-      gap:10px;
+      gap:12px;
       margin-bottom:14px;
+      position:relative;
+      z-index:1;
     }
     .welcome .line{
       height:1px;
-      width:64px;
+      width: clamp(34px, 10vw, 72px);
       background:linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity:.9;
     }
     .welcome .text{
       font-style:italic;
       font-size:16px;
-      color:#5b5966;
+      color: rgba(43,42,51,.70);
+      line-height:1.25;
     }
     .welcome .text strong{
-      font-family:"Playfair Display", serif;
-      text-transform:uppercase;
-      letter-spacing:.1em;
+      font-family:"Fraunces", serif;
+      font-weight:600;
+      letter-spacing:.06em;
       color:var(--gold);
       font-style:normal;
     }
+    .welcome .text em{
+      color: rgba(43,74,61,.85);
+      font-style: italic;
+    }
 
+    /* Less sharp title: no all-caps, softer serif */
     h1{
-      font-family:"Playfair Display", serif;
-      letter-spacing:.14em;
-      text-transform:uppercase;
+      font-family:"Fraunces", serif;
+      font-weight:600;
+      letter-spacing:.03em;
       margin:0;
+      color: rgba(43,42,51,.92);
+      position:relative;
+      z-index:1;
+      font-size: clamp(26px, 5.2vw, 36px);
     }
 
     .divider{
@@ -90,53 +200,73 @@
       width:70%;
       margin:18px auto;
       background:linear-gradient(90deg, transparent, var(--gold), transparent);
+      position:relative;
+      z-index:1;
     }
 
     .label{
       font-style:italic;
       margin-top:6px;
       font-size:18px;
+      color: rgba(43,74,61,.82);
+      position:relative;
+      z-index:1;
     }
 
     .val{
-      font-family:"Playfair Display", serif;
-      font-size:84px;
-      font-weight:700;
+      font-family:"Fraunces", serif;
+      font-size: clamp(64px, 10vw, 86px);
+      font-weight:600;
       background:linear-gradient(180deg, var(--gold2), var(--gold));
       -webkit-background-clip:text;
       background-clip:text;
       color:transparent;
-      margin:6px 0;
+      margin:8px 0 6px;
+      position:relative;
+      z-index:1;
     }
 
     .target{
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      margin-bottom:22px;
-      font-size:15px;
+      margin: 10px auto 22px;
+      font-size:16px;
+      letter-spacing:.02em;
+      text-transform:none; /* remove sharp uppercase */
+      color: rgba(43,42,51,.74);
+      max-width: 44ch;
+      line-height:1.35;
+      position:relative;
+      z-index:1;
     }
-    .target strong{ color:var(--gold); }
+    .target strong{ color:var(--gold); font-weight:600; }
 
     .field{
       margin-bottom:14px;
       text-align:left;
+      position:relative;
+      z-index:1;
     }
     label{
       font-size:12px;
-      letter-spacing:.14em;
+      letter-spacing:.10em;
       text-transform:uppercase;
-      color:#6b6876;
+      color: rgba(43,42,51,.62);
       padding-left:6px;
     }
     input{
       width:100%;
       padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(200,163,90,.35);
-      background:rgba(255,255,255,.6);
+      border-radius:16px;
+      border:1px solid rgba(200,163,90,.28);
+      background:rgba(255,255,255,.68);
       font-family:"Cormorant Garamond", serif;
       font-size:18px;
       outline:none;
+      transition: .2s ease;
+      box-shadow: 0 10px 22px rgba(30,26,40,.06);
+    }
+    input:focus{
+      border-color: rgba(62,107,85,.30);
+      box-shadow: 0 0 0 4px rgba(62,107,85,.10), 0 14px 30px rgba(30,26,40,.10);
     }
 
     button{
@@ -145,14 +275,22 @@
       padding:14px;
       border:none;
       border-radius:999px;
-      font-family:"Playfair Display", serif;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      background:linear-gradient(180deg, var(--gold2), var(--gold));
+      font-family:"Fraunces", serif;
+      font-weight:600;
+      letter-spacing:.08em;
+      text-transform:none; /* softer */
+      background:
+        radial-gradient(220px 120px at 30% 30%, rgba(255,255,255,.55), transparent 60%),
+        linear-gradient(180deg, var(--gold2), var(--gold));
       color:#2b2a33;
       cursor:pointer;
       box-shadow:0 16px 34px rgba(30,26,40,.18);
+      transition: transform .18s ease, filter .18s ease;
+      position:relative;
+      z-index:1;
     }
+    button:hover{ transform: translateY(-1px); filter: brightness(1.02); }
+    button:active{ transform: translateY(0px) scale(.99); }
 
     #overlay{
       position:fixed;
@@ -160,18 +298,31 @@
       display:none;
       align-items:center;
       justify-content:center;
-      background:rgba(10,14,20,.65);
+      background:rgba(10,14,20,.62);
       backdrop-filter:blur(10px);
+      padding: 20px;
+      z-index:10;
     }
 
     .reveal{
-      background:rgba(255,255,255,.9);
+      background:rgba(255,255,255,.92);
       padding:44px;
       border-radius:28px;
       text-align:center;
       width:min(680px,92vw);
       box-shadow:0 34px 80px rgba(0,0,0,.35);
       position:relative;
+      overflow:hidden;
+    }
+    .reveal::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(420px 240px at 20% 20%, rgba(62,107,85,.10), transparent 60%),
+        radial-gradient(380px 220px at 80% 30%, rgba(200,163,90,.10), transparent 60%);
+      opacity:.7;
     }
 
     .reveal h2{
@@ -179,6 +330,13 @@
       font-size:56px;
       color:var(--gold);
       margin:10px 0;
+      position:relative;
+      z-index:1;
+    }
+    .reveal p, .reveal h1, .reveal button{ position:relative; z-index:1; }
+
+    @media (max-width: 380px){
+      .manuscript{ padding:40px 22px 34px; }
     }
   </style>
 </head>
@@ -186,6 +344,10 @@
 <body>
   <div class="manuscript">
     <div class="frame"></div>
+    <div class="corner c1"></div>
+    <div class="corner c2"></div>
+    <div class="corner c3"></div>
+    <div class="corner c4"></div>
 
     <div class="welcome">
       <span class="line"></span>
@@ -246,7 +408,7 @@
 
     function attemptBond(){
       const partnerVal = parseInt(document.getElementById("partner-val").value, 10);
-      const userKey = (document.getElementById("host-key").value || "").toLowerCase();
+      const userKey = (document.getElementById("host-key").value || "").toLowerCase().trim();
       const sum = myValue + partnerVal;
 
       if(sum === myTarget && userKey === SECRET_KEY){
